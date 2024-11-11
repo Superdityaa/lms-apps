@@ -1,4 +1,4 @@
-# ostudy
+# O Study
 
 A new Flutter project.
 
