@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "412829356519",
+    "project_id": "o-study-f1085",
+    "storage_bucket": "o-study-f1085.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412829356519:android:7428c486d9e164cd9aed42",
+        "android_client_info": {
+          "package_name": "com.example.ostudy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6B82UdVcLMiIll39TV70nZxxsFTAbovc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
