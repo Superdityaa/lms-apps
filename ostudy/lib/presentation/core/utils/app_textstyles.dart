@@ -36,6 +36,8 @@ class HeadingRegular {
 
 //Paragraph Body
 class ParagraphBody {
+  static final TextStyle mediumBoldWhite = GoogleFonts.oxygen(
+      fontSize: 14, fontWeight: FontWeight.bold, color: NeutralColors.white);
   static final TextStyle mediumBold = GoogleFonts.oxygen(
       fontSize: 14, fontWeight: FontWeight.bold, color: NeutralColors.black500);
   static final TextStyle smallBold = GoogleFonts.oxygen(
