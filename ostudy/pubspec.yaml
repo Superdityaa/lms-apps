@@ -64,6 +64,11 @@ flutter:
   assets:
     - assets/icon/arrow-narrow-left.svg
     - assets/icon/search-03.svg
+    - assets/icon/code.svg
+    - assets/icon/laptop.svg
+    - assets/icon/puzzle.svg
+    - assets/icon/lamp.svg
+    - assets/icon/pen-tool.svg
     - assets/images/logo-text.png
     - assets/images/onboarding.png
     - assets/images/onboarding1.png
