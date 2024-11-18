@@ -13,17 +13,17 @@ class AppColors{
   static const Color orange900 = Color(0xFF652511);
 
 
-  // static const LinearGradient lightGradient = LinearGradient(
-  //   colors: [primaryColor, whiteColor],
-  //   begin: Alignment.topCenter,
-  //   end: Alignment.bottomCenter,
-  // );
+  static const LinearGradient darkGradient = LinearGradient(
+    colors: [AppColors.orange500, NeutralColors.white],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
 
-  // static const LinearGradient darkGradient = LinearGradient(
-  //   colors: [primaryColor, darkBlueColor],
-  //   begin: Alignment.topCenter,
-  //   end: Alignment.bottomCenter,
-  // );
+  static const LinearGradient lightGradient = LinearGradient(
+    colors: [AppColors.orange100, NeutralColors.white],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
 }
 
 class NeutralColors{
