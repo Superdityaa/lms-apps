@@ -69,6 +69,10 @@ flutter:
     - assets/icon/puzzle.svg
     - assets/icon/lamp.svg
     - assets/icon/pen-tool.svg
+    - assets/icon/book-mark-line.svg
+    - assets/icon/heart-3-line.svg
+    - assets/icon/home-02.svg
+    - assets/icon/user-3-line.svg
     - assets/images/logo-text.png
     - assets/images/onboarding.png
     - assets/images/onboarding1.png
