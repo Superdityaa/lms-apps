@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:ostudy/presentation/core/components/button.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 
 class BottomSheetOnBoarding extends StatelessWidget {
   final String headerText;
   final String subHeaderText;
+  final VoidCallback onButtonPressed;
 
-  BottomSheetOnBoarding({
+  const BottomSheetOnBoarding({
+    super.key,
     required this.headerText,
     required this.subHeaderText,
+    required this.onButtonPressed,
   });
 
   @override
@@ -33,11 +37,11 @@ class BottomSheetOnBoarding extends StatelessWidget {
           const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              subHeaderText,
-              style: ParagraphBody.smallRegular
-            ),
+            child: Text(subHeaderText, style: ParagraphBody.smallRegular),
           ),
+          const SizedBox(height: 8),
+          MainButton(
+              text: "Next", width: 100, height: 50, onPressed: onButtonPressed)
         ],
       ),
     );
