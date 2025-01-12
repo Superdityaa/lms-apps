@@ -10,6 +10,12 @@ class BoardingThirdScreen extends StatefulWidget {
 class _BoardingThirdScreenState extends State<BoardingThirdScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return const Scaffold(
+      body: Stack(
+        children: <Widget>[
+          
+        ],
+      ),
+    );
   }
 }
