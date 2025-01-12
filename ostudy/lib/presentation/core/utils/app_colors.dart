@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppColors{
+class AppColors {
   static const Color orange50 = Color(0xFFFEEEEA);
   static const Color orange100 = Color(0xFFFBCCBD);
   static const Color orange200 = Color(0xFFF9B39D);
@@ -11,22 +11,9 @@ class AppColors{
   static const Color orange700 = Color(0xFFAB3F1D);
   static const Color orange800 = Color(0xFF853117);
   static const Color orange900 = Color(0xFF652511);
-
-
-  static const LinearGradient darkGradient = LinearGradient(
-    colors: [AppColors.orange500, NeutralColors.white],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-  );
-
-  static const LinearGradient lightGradient = LinearGradient(
-    colors: [AppColors.orange100, NeutralColors.white],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-  );
 }
 
-class NeutralColors{
+class NeutralColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color black50 = Color(0xFFE7E7E7);
   static const Color black100 = Color(0xFFB4B4B4);
@@ -38,4 +25,18 @@ class NeutralColors{
   static const Color black700 = Color(0xFF090909);
   static const Color black800 = Color(0xFF070707);
   static const Color black900 = Color(0xFF050505);
+}
+
+class GradientColors {
+  static const LinearGradient darkGradient = LinearGradient(
+    colors: [AppColors.orange500, NeutralColors.white],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
+  static const LinearGradient lightGradient = LinearGradient(
+    colors: [AppColors.orange100, NeutralColors.white],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
 }
