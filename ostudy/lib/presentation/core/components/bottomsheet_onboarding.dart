@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ostudy/presentation/core/components/button.dart';
+import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 
 class BottomSheetOnBoarding extends StatelessWidget {
@@ -41,7 +42,12 @@ class BottomSheetOnBoarding extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           MainButton(
-              text: "Next", width: 100, height: 50, onPressed: onButtonPressed)
+            text: "Next",
+            width: 100,
+            height: 50,
+            onPressed: onButtonPressed,
+            color: AppColors.orange500,
+          )
         ],
       ),
     );

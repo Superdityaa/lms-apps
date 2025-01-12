@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
-import '../utils/app_colors.dart';
 
 class MainButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final double width;
   final double height;
-  final Color? color;
+  final Color color;
 
   const MainButton({
     Key? key,
@@ -15,7 +14,7 @@ class MainButton extends StatelessWidget {
     required this.onPressed,
     required this.width,
     required this.height,
-    this.color,
+    required this.color,
   }) : super(key: key);
 
   @override
@@ -26,7 +25,7 @@ class MainButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: color ?? AppColors.orange500,
+          backgroundColor: color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

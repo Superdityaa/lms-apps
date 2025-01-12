@@ -26,8 +26,8 @@ class _BoardingFirstScreenState extends State<BoardingFirstScreen> {
       body: Center(
         child: Image.asset(
           'assets/images/logo-text.png',
-          width: 100,
-          height: 100,
+          width: 300,
+          height: 300,
         ),
       ),
     );
