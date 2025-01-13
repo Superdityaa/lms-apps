@@ -18,6 +18,13 @@ class BottomSheetOnBoarding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: const BoxDecoration(
+        color: NeutralColors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
       padding: const EdgeInsets.all(16),
       height: 200,
       child: Column(
@@ -35,18 +42,21 @@ class BottomSheetOnBoarding extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(subHeaderText, style: ParagraphBody.smallRegular),
           ),
-          const SizedBox(height: 8),
-          MainButton(
-            text: "Next",
-            width: 100,
-            height: 50,
-            onPressed: onButtonPressed,
-            color: AppColors.orange500,
+          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: MainButton(
+              text: "Next",
+              width: 400,
+              height: 50,
+              onPressed: onButtonPressed,
+              color: AppColors.orange500,
+            ),
           )
         ],
       ),

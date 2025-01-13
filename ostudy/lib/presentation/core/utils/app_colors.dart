@@ -36,7 +36,7 @@ class GradientColors {
 
   static const LinearGradient lightGradient = LinearGradient(
     colors: [AppColors.orange100, NeutralColors.white],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
+    begin: Alignment.bottomCenter,
+    end: Alignment.topCenter,
   );
 }
