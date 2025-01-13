@@ -24,7 +24,7 @@ class CustomAccordion extends StatelessWidget {
         leading: SvgPicture.asset(
           'assets/icons/chevron-down.svg',
           // ignore: deprecated_member_use
-          color: NeutralColors.black500,
+          color: AppColors.orange500,
           height: 18,
           width: 18,
         ),
