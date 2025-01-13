@@ -61,6 +61,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/icon/chevron-down.svg
     - assets/icon/arrow-narrow-left.svg
     - assets/icon/search-03.svg
     - assets/icon/code.svg
