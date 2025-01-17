@@ -26,7 +26,7 @@ class BottomSheetOnBoarding extends StatelessWidget {
         ),
       ),
       padding: const EdgeInsets.all(16),
-      height: 200,
+      height: 220,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -47,9 +47,9 @@ class BottomSheetOnBoarding extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(subHeaderText, style: ParagraphBody.smallRegular),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 36),
           Padding(
-            padding: const EdgeInsets.only(left: 12),
+            padding: const EdgeInsets.only(left: 8),
             child: MainButton(
               text: "Next",
               width: 400,
