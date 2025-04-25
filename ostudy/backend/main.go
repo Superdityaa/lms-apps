@@ -16,7 +16,17 @@ func main() {
 	}
 
 	for _, u := range users {
-		fmt.Printf("ID: %d, Username: %s, Email: %s\n", "Password: %s\n", "Completename: %s\n", "Address: %s\n",
-			u.ID, u.Username, u.Email, u.Password, u.Completename, u.Address)
+		fmt.Printf(
+			"ID: %d, Username: %s, Email: %s\n",
+			"Password: %s\n",
+			"Completename: %s\n",
+			"Address: %s\n",
+			u.ID,
+			u.Username,
+			u.Email,
+			u.Password,
+			u.Completename,
+			u.Address,
+		)
 	}
 }

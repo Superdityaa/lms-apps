@@ -1,0 +1,31 @@
+# Ignore database files
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+
+# Ignore environment config (jika ada)
+.env
+.env.*
+
+# Ignore compiled binary files and test outputs
+*.exe
+*.out
+*.test
+
+# Ignore OS-specific and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Ignore logs
+*.log
+
+# Ignore temp folders
+tmp/
+*.tmp
+
+# Go vendor folder (if using vendoring)
+# vendor/
