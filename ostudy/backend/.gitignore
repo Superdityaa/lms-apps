@@ -3,6 +3,7 @@
 *.sqlite
 *.sqlite3
 *.sql
+backend/package/config/db.go
 
 # Ignore environment config (jika ada)
 .env
