@@ -4,10 +4,9 @@ import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 import 'package:ostudy/presentation/core/utils/app_transition.dart';
 import 'package:ostudy/presentation/screen/auth/login/login_screen.dart';
-import 'package:ostudy/presentation/screen/boarding/boarding_fourth.dart';
 
-class BoardingThirdScreen extends StatelessWidget {
-  const BoardingThirdScreen({super.key});
+class BoardingFifthScreen extends StatelessWidget {
+  const BoardingFifthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,6 @@ class BoardingThirdScreen extends StatelessWidget {
         TransitionPage(page: page),
       );
     }
-
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -46,24 +44,32 @@ class BoardingThirdScreen extends StatelessWidget {
                 ],
               ),
             ),
+
             const SizedBox(height: 24),
+
             Expanded(
               flex: 5,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Image.asset(
-                  'assets/images/onboarding1.png',
+                  'assets/images/onboarding2.png',
                 ),
               ),
             ),
+
             BottomSheetOnBoarding(
-              headerText: "Your Gateway to \nKnowledge",
+              headerText: "Unlock Your Potential \nwith OStudy",
               subHeaderText:
-                  "Discover, Engage, and Achieve Your Educational Goals with Our Innovative Online Platform.",
+                  "Personalized Courses, Expert Guidance, and a Community to Support Your Educational Aspirations.",
               onButtonPressed: () {
-                _navigateToPage(const BoardingFourthScreen());
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
               },
-            )
+            ),
           ],
         ),
       ),

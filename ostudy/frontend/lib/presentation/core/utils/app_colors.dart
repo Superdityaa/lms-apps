@@ -11,6 +11,8 @@ class AppColors {
   static const Color orange700 = Color(0xFFAB3F1D);
   static const Color orange800 = Color(0xFF853117);
   static const Color orange900 = Color(0xFF652511);
+
+  static white() {}
 }
 
 class NeutralColors {
@@ -39,4 +41,10 @@ class GradientColors {
     begin: Alignment.bottomCenter,
     end: Alignment.topCenter,
   );
+}
+
+class ValidationFormColors{
+  static const Color shadowActive = Color(0xF9B39D69);
+  static const Color shadowWrong = Color(0x00ec778d);
+  static const Color wrongColor = Color (0xDF1C4126);
 }

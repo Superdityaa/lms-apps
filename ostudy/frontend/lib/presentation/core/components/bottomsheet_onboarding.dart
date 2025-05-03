@@ -26,7 +26,7 @@ class BottomSheetOnBoarding extends StatelessWidget {
         ),
       ),
       padding: const EdgeInsets.all(16),
-      height: 220,
+      height: 250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

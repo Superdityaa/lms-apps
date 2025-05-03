@@ -8,7 +8,7 @@ import (
     "github.com/gin-gonic/gin"
 )
 
-// GetUsers - Handles GET /users endpoint to retrieve all users.
+// GetAllUsers
 func GetUsers(c *gin.Context) {
     users, err := repositories.GetAllUsers()
     if err != nil {
@@ -18,7 +18,7 @@ func GetUsers(c *gin.Context) {
     c.JSON(http.StatusOK, users)
 }
 
-// CreateUser - Handles POST /users endpoint to create a new user.
+// CreateUser
 func CreateUser(c *gin.Context) {
     var user model.User
     if err := c.ShouldBindJSON(&user); err != nil {
@@ -34,7 +34,7 @@ func CreateUser(c *gin.Context) {
     c.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
 }
 
-// UpdateUser - Handles PUT /users/:id endpoint to update a user.
+// UpdateUser 
 func UpdateUser(c *gin.Context) {
     id := c.Param("id")
     var user model.User
@@ -51,7 +51,7 @@ func UpdateUser(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{"message": "User updated successfully"})
 }
 
-// DeleteUser - Handles DELETE /users/:id endpoint to delete a user.
+// DeleteUser 
 func DeleteUser(c *gin.Context) {
     id := c.Param("id")
     err := repositories.DeleteUser(id)
