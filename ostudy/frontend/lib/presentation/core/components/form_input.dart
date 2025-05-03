@@ -7,6 +7,8 @@ class CustomFormInput extends StatefulWidget {
   final bool isPassword;
   final double? width;
   final double? height;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
 
   const CustomFormInput({
     super.key,
@@ -14,6 +16,8 @@ class CustomFormInput extends StatefulWidget {
     this.isPassword = false,
     this.width,
     this.height,
+    this.controller,
+    this.validator,
   });
 
   @override
@@ -22,74 +26,81 @@ class CustomFormInput extends StatefulWidget {
 
 class _CustomFormInputState extends State<CustomFormInput> {
   final FocusNode _focusNode = FocusNode();
+  late TextEditingController _controller;
   bool _isFocused = false;
   bool _obscureText = true;
 
   @override
   void initState() {
     super.initState();
-    _focusNode.addListener(() {
-      setState(() {
-        _isFocused = _focusNode.hasFocus;
-      });
+    _controller = widget.controller ?? TextEditingController();
+    _focusNode.addListener(_handleFocusChange);
+  }
+
+  void _handleFocusChange() {
+    setState(() {
+      _isFocused = _focusNode.hasFocus;
     });
   }
 
   @override
   void dispose() {
+    _focusNode.removeListener(_handleFocusChange);
     _focusNode.dispose();
+    if (widget.controller == null) _controller.dispose(); // only dispose if local
     super.dispose();
   }
 
-  void _toggleVisibility() {
+  void _togglePasswordVisibility() {
     setState(() {
       _obscureText = !_obscureText;
     });
+  }
+
+  InputDecoration _buildInputDecoration() {
+    return InputDecoration(
+      hintText: widget.hintText,
+      hintStyle: ParagraphBody.smallRegular,
+      filled: true,
+      fillColor: Colors.white,
+      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: const BorderSide(color: NeutralColors.black100),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: const BorderSide(color: AppColors.orange200, width: 2),
+      ),
+      suffixIcon: widget.isPassword
+          ? IconButton(
+              icon: Icon(
+                _obscureText ? Icons.visibility_off : Icons.visibility,
+                color: _isFocused ? NeutralColors.black800 : NeutralColors.black200,
+              ),
+              onPressed: _togglePasswordVisibility,
+            )
+          : null,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
       width: widget.width,
-      height: widget.height,
+      height: widget.height ?? 60,
       duration: const Duration(milliseconds: 200),
       decoration: BoxDecoration(
         color: AppColors.white(),
         borderRadius: BorderRadius.circular(8),
       ),
       child: SizedBox.expand(
-        child: TextField(
+        child: TextFormField(
+          controller: _controller,
           focusNode: _focusNode,
           obscureText: widget.isPassword ? _obscureText : false,
-          decoration: InputDecoration(
-            hintText: widget.hintText,
-            hintStyle: ParagraphBody.smallRegular,
-            filled: true,
-            fillColor: Colors.white,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: NeutralColors.black100),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide:
-                  const BorderSide(color: AppColors.orange200, width: 2),
-            ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-            suffixIcon: widget.isPassword
-                ? IconButton(
-                    icon: Icon(
-                      _obscureText
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color:
-                          _isFocused ? Colors.grey[800] : Colors.grey[400],
-                    ),
-                    onPressed: _toggleVisibility,
-                  )
-                : null,
-          ),
+          decoration: _buildInputDecoration(),
+          validator: widget.validator,
         ),
       ),
     );
