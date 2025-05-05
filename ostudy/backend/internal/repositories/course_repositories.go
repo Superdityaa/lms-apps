@@ -5,52 +5,51 @@ import (
 	"lms-apps/backend/package/config"
 )
 
-func GetAllUsers() ([]model.User, error) {
+func GetAllCourse() ([]model.Course, error) {
 	rows, err := config.DB.Query("SELECT * FROM mt_users")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var users []model.User
+	var course []model.Course
 	for rows.Next() {
-		var u model.User
+		var u model.Course
 		if err := rows.Scan(
 			&u.ID,
-			&u.Username,
-			&u.Email,
-			&u.Password,
-			&u.Completename,
-			&u.Address,
+			&u.CourseName,
+			&u.Price,
+			&u.Category,
+			&u.Description,
 		); err != nil {
 			return nil, err
 		}
-		users = append(users, u)
+		course = append(course, u)
 	}
-	return users, nil
+	return course, nil
 }
 
-func CreateUser(user model.User) error {
+func CreateCourse(course model.Course) error {
 	_, err := config.DB.Exec(
-		`INSERT INTO mt_users (username, email, password, completename, address)
+		`INSERT INTO mt_users (coursename, price, category, description)
 		VALUES ($1, $2, $3, $4, $5)`,
-		user.Username, user.Email, user.Password, user.Completename, user.Address,
+		course.CourseName, course.Price, course.Category, course.Description,
 	)
 	return err
 }
 
 // Update existing user
-func UpdateUser(id string, user model.User) error {
+func UpdateCourse(id string, course model.Course) error {
 	_, err := config.DB.Exec(
 		`UPDATE mt_users SET username=$1, email=$2, password=$3, completename=$4, address=$5
-		 WHERE id=$6`,
-		user.Username, user.Email, user.Password, user.Completename, user.Address, id,
+		WHERE id=$6`,
+		course.CourseName, course.Price, course.Category, course.Description, id,
 	)
 	return err
 }
 
 // Delete user by ID
-func DeleteUser(id string) error {
+func DeleteCourse(id string) error {
 	_, err := config.DB.Exec("DELETE FROM mt_users WHERE id = $1", id)
 	return err
 }
