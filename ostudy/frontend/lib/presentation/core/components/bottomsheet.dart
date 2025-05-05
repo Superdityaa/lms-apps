@@ -6,7 +6,7 @@ class CustomBottomSheet extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onItemTapped;
 
-  CustomBottomSheet({
+  const CustomBottomSheet({
     required this.selectedIndex,
     required this.onItemTapped,
   });

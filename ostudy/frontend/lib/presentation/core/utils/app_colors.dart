@@ -41,6 +41,12 @@ class GradientColors {
     begin: Alignment.bottomCenter,
     end: Alignment.topCenter,
   );
+
+  static const LinearGradient lightGradientRevert = LinearGradient(
+    colors: [AppColors.orange100, NeutralColors.white],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
 }
 
 class ValidationFormColors{

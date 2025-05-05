@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ostudy/presentation/core/components/form_input.dart';
+import 'package:ostudy/presentation/core/utils/app_colors.dart';
+import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
+import 'package:ostudy/presentation/core/utils/app_transition.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -9,56 +11,62 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
-  }
-
-  void _handleSubmit() {
-    if (_formKey.currentState!.validate()) {
-      debugPrint("Email valid: ${_emailController.text.trim()}");
-    }
+  void _navigateToPage(Widget page) {
+    Navigator.push(
+      context,
+      TransitionPage(page: page),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
-      body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Login", style: TextStyle(fontSize: 24)),
-                const SizedBox(height: 24),
-                CustomFormInput(
-                  hintText: 'Ex : johndoe@gmail.com',
-                  controller: _emailController,
-                  width: double.infinity,
-                  height: 60,
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Email tidak boleh kosong';
-                    }
-                    if (!value.contains('@')) {
-                      return 'Format email tidak valid';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: _handleSubmit,
-                  child: const Text('Login'),
-                ),
-              ],
-            ),
+      body: Container(
+        height: size.height,
+        width: size.width,
+        decoration: const BoxDecoration(
+          gradient: GradientColors.lightGradientRevert,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 32, top: 72),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset(
+                'assets/images/onboarding1.png',
+                width: size.width * 0.5,
+                height: 200,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 32),
+              Text(
+                "Welcome Back!",
+                style: HeadingBold.heading4,
+              ),
+              const SizedBox(height: 24),
+              Text(
+                "Sign in to Continue Your Learning Journey and Access Your Personalized Courses and Progress.",
+                style: ParagraphBody.smallRegular,
+              ),
+              const SizedBox(height: 32),
+              Column(
+                children: [
+                  Text("Email or Username", style: ParagraphBody.mediumBold,),
+                  const SizedBox(height: 8)
+                  
+                ],
+              ),
+              const SizedBox(height: 32),
+              Column(
+                children: [
+                  Text("Password", style: ParagraphBody.mediumBold,),
+                  const SizedBox(height: 8)
+                  
+                ],
+              )
+            ],
           ),
         ),
       ),
