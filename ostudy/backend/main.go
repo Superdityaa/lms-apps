@@ -3,7 +3,10 @@ package main
 import (
 	"fmt"
 	"lms-apps/backend/internal/repositories"
+	"lms-apps/backend/internal/routes"
 	"lms-apps/backend/package/config"
+
+	"github.com/gin-gonic/gin"
 )
 
 // func main() {
@@ -52,4 +55,15 @@ func main() {
 			u.Description,
 		)
 	}
+}
+
+func baseUrl() {
+	config.ConnectDatabase()
+
+	r := gin.Default()
+	api := r.Group("/api")
+
+	routes.SetupCourseRoutes(api.Group("/courses"))
+
+	r.Run(":8080")
 }
