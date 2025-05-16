@@ -4,6 +4,7 @@ import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 import 'package:ostudy/presentation/core/utils/app_transition.dart';
 import 'package:ostudy/presentation/screen/auth/login/login_screen.dart';
+import 'package:ostudy/presentation/screen/auth/register/register_screen.dart';
 
 class BoardingFifthScreen extends StatelessWidget {
   const BoardingFifthScreen({super.key});
@@ -61,11 +62,19 @@ class BoardingFifthScreen extends StatelessWidget {
               headerText: "Unlock Your Potential \nwith OStudy",
               subHeaderText:
                   "Personalized Courses, Expert Guidance, and a Community to Support Your Educational Aspirations.",
+              // onButtonPressed: () {
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //       builder: (context) => const LoginScreen(),
+              //     ),
+              //   );
+              // },
               onButtonPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
+                    builder: (context) => const RegisterScreen(),
                   ),
                 );
               },

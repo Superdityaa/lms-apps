@@ -5,6 +5,7 @@ import '../utils/app_colors.dart';
 class CustomOutlinedButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final Widget? icon;
   final Color? color;
 
   const CustomOutlinedButton({
@@ -12,6 +13,7 @@ class CustomOutlinedButton extends StatelessWidget {
     required this.text,
     required this.onPressed,
     this.color,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -30,9 +32,19 @@ class CustomOutlinedButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        child: Text(
-          text,
-          style: ParagraphBody.mediumBold,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (icon != null) ...[
+              icon!,
+              const SizedBox(width: 8),
+            ],
+            Text(
+              text,
+              style: ParagraphBody.mediumBold,
+            ),
+          ],
         ),
       ),
     );

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ostudy/presentation/core/components/button.dart';
 import 'package:ostudy/presentation/core/components/form_input.dart';
 import 'package:ostudy/presentation/core/components/outlined_button.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 import 'package:ostudy/presentation/core/utils/app_transition.dart';
+import 'package:ostudy/presentation/screen/auth/register/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -64,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   hintText: 'Ex : Johndoe@gmail.com',
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 Text(
                   "Password",
                   style: ParagraphBody.mediumBold,
@@ -91,17 +93,68 @@ class _LoginScreenState extends State<LoginScreen> {
                     );
                   },
                 ),
-                const SizedBox(height: 64),
+                const SizedBox(height: 16),
+                Row(
+                  children: <Widget>[
+                    const Expanded(
+                      child: Divider(
+                        color: NeutralColors.black50,
+                        thickness: 1,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text('OR', style: ParagraphBody.smallRegular),
+                    ),
+                    const Expanded(
+                      child: Divider(
+                        color: NeutralColors.black50,
+                        thickness: 1,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
                 CustomOutlinedButton(
                   text: "Login with Google",
+                  icon: SvgPicture.asset(
+                    'assets/icon/google.svg',
+                    width: 20,
+                    height: 20,
+                  ),
                   color: NeutralColors.black50,
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                    );
                   },
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't Have Account?  ",
+                      style: ParagraphBody.smallRegular,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RegisterScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "Create Account",
+                        style: TextAuth.paragraphSmallOrange,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

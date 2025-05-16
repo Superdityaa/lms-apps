@@ -51,3 +51,9 @@ class ParagraphBody {
   static final TextStyle xsmallRegular = GoogleFonts.oxygen(
       fontSize: 10, fontWeight: FontWeight.normal, color: NeutralColors.black500);
 }
+
+//Boarding Class
+class TextAuth {
+  static final TextStyle paragraphSmallOrange = GoogleFonts.oxygen(
+    fontSize: 12, fontWeight: FontWeight.normal, color: AppColors.orange500);
+}
