@@ -2,8 +2,8 @@ package controller
 
 import (
 	"lms-apps/backend/internal/model"
-	"lms-apps/backend/helpers"
-	"lms-apps/backend/packages/config"
+	"lms-apps/backend/internal/helpers"
+	"lms-apps/backend/package/config"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

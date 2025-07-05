@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// SetupUserRoutes - Registers user-related routes with the Gin router.
 func SetupCourseRoutes(r *gin.RouterGroup) {
 	r.GET("/courses", controller.GetCourse)
 	r.POST("/addcourses", controller.CreateCourse)

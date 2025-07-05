@@ -1,69 +1,32 @@
 package main
 
 import (
-	"fmt"
-	"lms-apps/backend/internal/repositories"
 	"lms-apps/backend/internal/routes"
-	"lms-apps/backend/package/config"
+	"lms-apps/backend/packages/config"
+	"lms-apps/backend/helpers/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
-// func main() {
-// 	config.ConnectDatabase()
-
-// 	users, err := repositories.GetAllUsers()
-// 	if err != nil {
-// 		fmt.Println("Error getting users:", err)
-// 		return
-// 	}
-
-// 	for _, u := range users {
-// 		fmt.Printf(
-// 			"ID: %d, Username: %s, Email: %s\n",
-// 			"Password: %s\n",
-// 			"Completename: %s\n",
-// 			"Address: %s\n",
-// 			u.ID,
-// 			u.Username,
-// 			u.Email,
-// 			u.Password,
-// 			u.Completename,
-// 			u.Address,
-// 		)
-// 	}
-// }
-
 func main() {
+	// 1. Connect DB
 	config.ConnectDatabase()
 
-	courses, err := repositories.GetAllCourse()
-	if err != nil {
-		fmt.Println("Error getting courses:", err)
-		return
-	}
-
-	for _, u := range courses {
-		fmt.Printf(
-			"ID: %d, CourseName: %s, Price: %s\n",
-			"Category: %s\n",
-			"Description: %s\n",
-			u.ID,
-			u.CourseName,
-			u.Price,
-			u.Category,
-			u.Description,
-		)
-	}
-}
-
-func baseUrl() {
-	config.ConnectDatabase()
-
+	// 2. Setup router
 	r := gin.Default()
+
+	// 3. Setup routes
 	api := r.Group("/api")
 
-	routes.SetupCourseRoutes(api.Group("/courses"))
+	// Public routes (no auth)
+	routes.SetupAuthRoutes(api)
 
+	// Protected routes
+	protected := api.Group("/")
+	protected.Use(middleware.AuthMiddleware())
+	routes.SetupCourseRoutes(protected)
+	routes.SetupUserRoutes(protected)
+
+	// 4. Run server
 	r.Run(":8080")
 }
