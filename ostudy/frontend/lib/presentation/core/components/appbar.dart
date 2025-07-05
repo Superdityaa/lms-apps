@@ -10,7 +10,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
   final bool showLeadingIcon;
 
-  CustomAppBar({
+  const CustomAppBar({
     required this.title,
     this.height = 70,
     this.showLeadingIcon = true,

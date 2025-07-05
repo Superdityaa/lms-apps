@@ -5,7 +5,6 @@ import (
     "lms-apps/backend/internal/controller"
 )
 
-// SetupUserRoutes - Registers user-related routes with the Gin router.
 func SetupUserRoutes(r *gin.RouterGroup) {
     r.GET("/", controller.GetUsers)
     r.POST("/", controller.CreateUser)

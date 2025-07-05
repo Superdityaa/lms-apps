@@ -1,11 +1,11 @@
 package routes
 
 import (
-    "github.com/gin-gonic/gin"
-    "lms-apps/backend/internal/controller"
+	"lms-apps/backend/internal/controller"
+	"github.com/gin-gonic/gin"
 )
 
-// SetupLoginRoutes - Registers user-related routes with the Gin router.
-func SetupLogin(r *gin.RouterGroup) {
-    r.POST("/login", controller.Login)
+func SetupAuthRoutes(r *gin.RouterGroup) {
+	r.POST("/register", controller.Register)
+	r.POST("/login", controller.Login)
 }
