@@ -1,9 +1,9 @@
 package main
 
 import (
+	"lms-apps/backend/helpers/middleware"
 	"lms-apps/backend/internal/routes"
 	"lms-apps/backend/packages/config"
-	"lms-apps/backend/helpers/middleware"
 
 	"github.com/gin-gonic/gin"
 )
