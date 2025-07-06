@@ -3,6 +3,5 @@ import 'package:ostudy/presentation/screen/boarding/boarding_first.dart';
 
 void main() {
   runApp(const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: BoardingFirstScreen()));
+      debugShowCheckedModeBanner: false, home: BoardingFirstScreen()));
 }
