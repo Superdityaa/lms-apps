@@ -1,9 +1,9 @@
 package main
 
 import (
-	"lms-apps/backend/helpers/middleware"
+	"lms-apps/backend/internal/helpers/middleware"
 	"lms-apps/backend/internal/routes"
-	"lms-apps/backend/packages/config"
+	"lms-apps/backend/package/config"
 
 	"github.com/gin-gonic/gin"
 )
@@ -30,3 +30,14 @@ func main() {
 	// 4. Run server
 	r.Run(":8080")
 }
+
+// func () {
+// 	r := gin.Default()
+
+// 	r.GET("/", func(c *gin.Context) {
+// 		c.JSON(200, gin.H{
+// 			"message": "pong",
+// 		})
+// 	})
+// 	r.Run()
+// }

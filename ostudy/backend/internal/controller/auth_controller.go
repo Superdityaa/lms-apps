@@ -1,8 +1,8 @@
 package controller
 
 import (
+	helpers "lms-apps/backend/internal/helpers/jwt"
 	"lms-apps/backend/internal/model"
-	"lms-apps/backend/internal/helpers"
 	"lms-apps/backend/package/config"
 	"net/http"
 
