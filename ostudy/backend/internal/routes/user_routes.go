@@ -1,13 +1,14 @@
 package routes
 
 import (
-    "github.com/gin-gonic/gin"
-    "lms-apps/backend/internal/controller"
+	"lms-apps/backend/internal/controller"
+
+	"github.com/gin-gonic/gin"
 )
 
 func SetupUserRoutes(r *gin.RouterGroup) {
-    r.GET("/", controller.GetUsers)
-    r.POST("/", controller.CreateUser)
-    r.PUT("/:id", controller.UpdateUser)
-    r.DELETE("/:id", controller.DeleteUser)
+	r.GET("/getUser", controller.GetUsers)
+	r.POST("/createUser", controller.CreateUser)
+	r.PUT("/updateUser:id", controller.UpdateUser)
+	r.DELETE("/deleteUser:id", controller.DeleteUser)
 }

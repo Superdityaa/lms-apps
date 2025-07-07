@@ -14,7 +14,13 @@ import (
 func Register(c *gin.Context) {
 	var input model.User
 	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input", "details": err.Error()})
+		return
+	}
+
+	// Validation Regist User
+	if input.Email == "" || input.Password == "" || input.Username == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Email, username, and password are required"})
 		return
 	}
 
@@ -25,21 +31,43 @@ func Register(c *gin.Context) {
 		return
 	}
 	input.Password = string(hashedPassword)
+
+	// Insert to database
+	_, err = config.DB.Exec(
+		`INSERT INTO tb_user (Username, Email, Password, Completename, Address) 
+		VALUES ($1, $2, $3, $4, $5)`,
+		input.Username, input.Email, input.Password, input.Completename, input.Address,
+	)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register user", "details": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
 }
 
 // Login user
 func Login(c *gin.Context) {
+	// var input model.User
+	// if err := c.ShouldBindJSON(&input); err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input cok"})
+	// 	return
+	// }
 	var input model.User
 	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		// Debug log
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Invalid input",
+			"details": err.Error(),
+		})
 		return
 	}
 
 	var user model.User
-	err := config.DB.QueryRow("SELECT id, email, password FROM users WHERE email=$1", input.Email).
+	err := config.DB.QueryRow("SELECT id, Email, Password FROM tb_users WHERE email=$aditiyamahendra08@gmail.com", input.Email).
 		Scan(&user.ID, &user.Email, &user.Password)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password cok"})
 		return
 	}
 

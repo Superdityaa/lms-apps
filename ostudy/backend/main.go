@@ -22,7 +22,7 @@ func main() {
 	routes.SetupAuthRoutes(api)
 
 	// Protected routes
-	protected := api.Group("/")
+	protected := api.Group("")
 	protected.Use(middleware.AuthMiddleware())
 	routes.SetupCourseRoutes(protected)
 	routes.SetupUserRoutes(protected)
@@ -31,7 +31,7 @@ func main() {
 	r.Run(":8080")
 }
 
-// func () {
+// func main() {
 // 	r := gin.Default()
 
 // 	r.GET("/", func(c *gin.Context) {

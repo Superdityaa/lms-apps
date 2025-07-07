@@ -25,5 +25,5 @@ func ConnectDatabase() {
 		log.Fatal("Error while connecting to the database: ", err)
 	}
 
-	fmt.Println("Database connection successful")
+	fmt.Println("Database connection successfully")
 }
