@@ -32,16 +32,16 @@ func Register(c *gin.Context) {
 	}
 	input.Password = string(hashedPassword)
 
-	// Insert to database
-	_, err = config.DB.Exec(
-		`INSERT INTO tb_user (Username, Email, Password, Completename, Address) 
-		VALUES ($1, $2, $3, $4, $5)`,
-		input.Username, input.Email, input.Password, input.Completename, input.Address,
-	)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register user", "details": err.Error()})
-		return
-	}
+	// // Insert to database
+	// _, err = config.DB.Exec(
+	// 	`INSERT INTO tb_user (Username, Email, Password, Completename, Address)
+	// 	VALUES ($1, $2, $3, $4, $5)`,
+	// 	input.Username, input.Email, input.Password, input.Completename, input.Address,
+	// )
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register user", "details": err.Error()})
+	// 	return
+	// }
 
 	c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
 }
