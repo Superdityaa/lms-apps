@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -18,13 +19,11 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	// Validation Regist User
 	if input.Email == "" || input.Password == "" || input.Username == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Email, username, and password are required"})
 		return
 	}
 
-	// Hash password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error hashing password"})
@@ -32,16 +31,18 @@ func Register(c *gin.Context) {
 	}
 	input.Password = string(hashedPassword)
 
-	// // Insert to database
-	// _, err = config.DB.Exec(
-	// 	`INSERT INTO tb_user (Username, Email, Password, Completename, Address)
-	// 	VALUES ($1, $2, $3, $4, $5)`,
-	// 	input.Username, input.Email, input.Password, input.Completename, input.Address,
-	// )
-	// if err != nil {
-	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register user", "details": err.Error()})
-	// 	return
-	// }
+	// ✅ Generate UUID untuk kolom ID
+	id := uuid.New()
+
+	_, err = config.DB.Exec(`
+		INSERT INTO tb_user (id, username, email, password, completename, address)
+		VALUES ($1, $2, $3, $4, $5, $6)
+	`, id, input.Username, input.Email, input.Password, input.Completename, input.Address)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register user", "details": err.Error()})
+		return
+	}
 
 	c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
 }
