@@ -9,6 +9,6 @@ import (
 func SetupCourseRoutes(r *gin.RouterGroup) {
 	r.GET("/getCourse", controller.GetCourse)
 	r.POST("/createCourse", controller.CreateCourse)
-	r.PUT("/updateCourse:id", controller.UpdateCourse)
-	r.DELETE("/deleteCourse:id", controller.DeleteCourse)
+	r.PUT("/updateCourse/:id", controller.UpdateCourse)
+	r.DELETE("/deleteCourse/:id", controller.DeleteCourse)
 }
