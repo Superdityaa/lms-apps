@@ -24,6 +24,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
+	// Hashing password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error hashing password"})
@@ -48,11 +49,6 @@ func Register(c *gin.Context) {
 
 // Login user
 func Login(c *gin.Context) {
-	// var input model.User
-	// if err := c.ShouldBindJSON(&input); err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input cok"})
-	// 	return
-	// }
 	var input model.User
 	if err := c.ShouldBindJSON(&input); err != nil {
 		// Debug log
@@ -64,22 +60,13 @@ func Login(c *gin.Context) {
 	}
 
 	var user model.User
-	// err := config.DB.QueryRow("SELECT id, Email, Password FROM tb_user WHERE email=$1", input.Email).
-	// 	Scan(&user.ID, &user.Email, &user.Password)
-	// if err != nil {
-	// 	c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password cok"})
-	// 	return
-	// }
 	err := config.DB.QueryRow("SELECT id, email, password FROM tb_user WHERE email=$1", input.Email).
 		Scan(&user.ID, &user.Email, &user.Password)
 	if err != nil {
-		// Cetak ke terminal (log error)
 		println("Query error:", err.Error())
-
-		// Beri juga ke response supaya kamu tahu dari Postman
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error":   "Invalid email or password",
-			"details": err.Error(), // akan muncul error detail misalnya "no rows in result set"
+			"details": err.Error(),
 		})
 		return
 	}
