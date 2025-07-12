@@ -31,7 +31,6 @@ func Register(c *gin.Context) {
 	}
 	input.Password = string(hashedPassword)
 
-	// ✅ Generate UUID untuk kolom ID
 	id := uuid.New()
 
 	_, err = config.DB.Exec(`
@@ -65,10 +64,23 @@ func Login(c *gin.Context) {
 	}
 
 	var user model.User
-	err := config.DB.QueryRow("SELECT id, Email, Password FROM tb_users WHERE email=$aditiyamahendra08@gmail.com", input.Email).
+	// err := config.DB.QueryRow("SELECT id, Email, Password FROM tb_user WHERE email=$1", input.Email).
+	// 	Scan(&user.ID, &user.Email, &user.Password)
+	// if err != nil {
+	// 	c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password cok"})
+	// 	return
+	// }
+	err := config.DB.QueryRow("SELECT id, email, password FROM tb_user WHERE email=$1", input.Email).
 		Scan(&user.ID, &user.Email, &user.Password)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password cok"})
+		// Cetak ke terminal (log error)
+		println("Query error:", err.Error())
+
+		// Beri juga ke response supaya kamu tahu dari Postman
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error":   "Invalid email or password",
+			"details": err.Error(), // akan muncul error detail misalnya "no rows in result set"
+		})
 		return
 	}
 

@@ -10,7 +10,7 @@ import (
 
 // GetAllUsers
 func GetUsers(c *gin.Context) {
-	rows, err := config.DB.Query("SELECT * FROM mt_users")
+	rows, err := config.DB.Query("SELECT * FROM tb_user")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve users"})
 		return
@@ -38,7 +38,7 @@ func CreateUser(c *gin.Context) {
 	}
 
 	_, err := config.DB.Exec(
-		`INSERT INTO mt_users (username, email, password, completename, address)
+		`INSERT INTO tb_user (username, email, password, completename, address)
          VALUES ($1, $2, $3, $4, $5)`,
 		user.Username, user.Email, user.Password, user.Completename, user.Address,
 	)
@@ -60,7 +60,7 @@ func UpdateUser(c *gin.Context) {
 	}
 
 	_, err := config.DB.Exec(
-		`UPDATE mt_users SET username=$1, email=$2, password=$3, completename=$4, address=$5 WHERE id=$6`,
+		`UPDATE tb_user SET username=$1, email=$2, password=$3, completename=$4, address=$5 WHERE id=$6`,
 		user.Username, user.Email, user.Password, user.Completename, user.Address, id,
 	)
 	if err != nil {
@@ -74,7 +74,7 @@ func UpdateUser(c *gin.Context) {
 // DeleteUser
 func DeleteUser(c *gin.Context) {
 	id := c.Param("id")
-	_, err := config.DB.Exec("DELETE FROM mt_users WHERE id = $1", id)
+	_, err := config.DB.Exec("DELETE FROM tb_user WHERE id = $1", id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete user"})
 		return
