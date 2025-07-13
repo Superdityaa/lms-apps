@@ -27,7 +27,34 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired token"})
 			return
 		}
+		if claims, ok := token.Claims.(jwt.MapClaims); ok {
+			if role, ok := claims["user_role"].(string); ok {
+				c.Set("role", role)
+			} else {
+				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid role in token"})
+				return
+			}
+		}
 
 		c.Next()
+	}
+}
+
+// Role Based
+func RoleAuthorization(allowedRoles ...string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		roleVal, exists := c.Get("role")
+		if !exists {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Role not found in token"})
+			return
+		}
+		userRole := roleVal.(string)
+		for _, role := range allowedRoles {
+			if userRole == role {
+				c.Next()
+				return
+			}
+		}
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Forbidden: insufficient role permission"})
 	}
 }

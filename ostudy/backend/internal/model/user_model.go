@@ -7,4 +7,5 @@ type User struct {
 	Password     string `json:"password,omitempty"`
 	Completename string `json:"completename"`
 	Address      string `json:"address"`
+	Role         string `json:"role"`
 }

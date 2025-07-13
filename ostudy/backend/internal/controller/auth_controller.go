@@ -23,6 +23,9 @@ func Register(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Email, username, and password are required"})
 		return
 	}
+	if input.Role == "" {
+		input.Role = "student"
+	}
 
 	// Hashing password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
@@ -35,9 +38,9 @@ func Register(c *gin.Context) {
 	id := uuid.New()
 
 	_, err = config.DB.Exec(`
-		INSERT INTO tb_user (id, username, email, password, completename, address)
-		VALUES ($1, $2, $3, $4, $5, $6)
-	`, id, input.Username, input.Email, input.Password, input.Completename, input.Address)
+		INSERT INTO tb_user (id, username, email, password, completename, address, role)
+		VALUES ($1, $2, $3, $4, $5, $6, $7)
+	`, id, input.Username, input.Email, input.Password, input.Completename, input.Address, input.Role)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register user", "details": err.Error()})
@@ -60,8 +63,9 @@ func Login(c *gin.Context) {
 	}
 
 	var user model.User
-	err := config.DB.QueryRow("SELECT id, email, password FROM tb_user WHERE email=$1", input.Email).
-		Scan(&user.ID, &user.Email, &user.Password)
+	err := config.DB.QueryRow("SELECT id, email, password, role FROM tb_user WHERE email=$1", input.Email).
+		Scan(&user.ID, &user.Email, &user.Password, &user.Role)
+
 	if err != nil {
 		println("Query error:", err.Error())
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -77,7 +81,7 @@ func Login(c *gin.Context) {
 	}
 
 	// Generate token
-	token, err := helpers.GenerateToken(user.ID)
+	token, err := helpers.GenerateToken(user.ID, user.Role)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
