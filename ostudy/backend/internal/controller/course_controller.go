@@ -42,8 +42,8 @@ func CreateCourse(c *gin.Context) {
 	id := uuid.New().String()
 
 	_, err := config.DB.Exec(
-		`INSERT INTO tb_course (id, coursename, price, category, description)
-         VALUES ($1, $2, $3, $4, $5)`,
+		`INSERT INTO tb_course (id, thumbnail coursename, price, category, description)
+         VALUES ($1, $2, $3, $4, $5, $6)`,
 		id, course.CourseName, course.Price, course.Category, course.Description,
 	)
 	if err != nil {
@@ -65,8 +65,8 @@ func UpdateCourse(c *gin.Context) {
 
 	_, err := config.DB.Exec(
 		`UPDATE tb_course 
-         SET coursename=$1, price=$2, category=$3, description=$4
-         WHERE id=$5`,
+         SET  thumbnail=$1 coursename=$2, price=$3, category=$4, description=$5
+         WHERE id=$6`,
 		course.CourseName, course.Price, course.Category, course.Description, id,
 	)
 	if err != nil {

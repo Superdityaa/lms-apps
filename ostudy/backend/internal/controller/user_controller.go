@@ -20,7 +20,7 @@ func GetUsers(c *gin.Context) {
 	var users []model.User
 	for rows.Next() {
 		var u model.User
-		if err := rows.Scan(&u.ID, &u.Username, &u.Email, &u.Password, &u.Completename, &u.Address); err != nil {
+		if err := rows.Scan(&u.ID, &u.Avatar, &u.Username, &u.Email, &u.Password, &u.Completename, &u.Address); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning users"})
 			return
 		}
@@ -38,8 +38,8 @@ func CreateUser(c *gin.Context) {
 	}
 
 	_, err := config.DB.Exec(
-		`INSERT INTO tb_user (username, email, password, completename, address)
-         VALUES ($1, $2, $3, $4, $5)`,
+		`INSERT INTO tb_user (avatar, username, email, password, completename, address)
+         VALUES ($1, $2, $3, $4, $5, $6)`,
 		user.Username, user.Email, user.Password, user.Completename, user.Address,
 	)
 	if err != nil {
@@ -60,7 +60,7 @@ func UpdateUser(c *gin.Context) {
 	}
 
 	_, err := config.DB.Exec(
-		`UPDATE tb_user SET username=$1, email=$2, password=$3, completename=$4, address=$5 WHERE id=$6`,
+		`UPDATE tb_user SET avatar=$1, username=$2, email=$3, password=$4, completename=$5, address=$6 WHERE id=$7`,
 		user.Username, user.Email, user.Password, user.Completename, user.Address, id,
 	)
 	if err != nil {
