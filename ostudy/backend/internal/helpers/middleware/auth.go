@@ -28,14 +28,13 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 		if claims, ok := token.Claims.(jwt.MapClaims); ok {
-			if role, ok := claims["user_role"].(string); ok {
+			if role, ok := claims["role"].(string); ok {
 				c.Set("role", role)
 			} else {
 				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid role in token"})
 				return
 			}
 		}
-
 		c.Next()
 	}
 }
@@ -55,6 +54,6 @@ func RoleAuthorization(allowedRoles ...string) gin.HandlerFunc {
 				return
 			}
 		}
-		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Forbidden: insufficient role permission"})
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "This user not have access to do this function!"})
 	}
 }

@@ -65,6 +65,7 @@ func Login(c *gin.Context) {
 	var user model.User
 	err := config.DB.QueryRow("SELECT id, email, password, role FROM tb_user WHERE email=$1", input.Email).
 		Scan(&user.ID, &user.Email, &user.Password, &user.Role)
+	println("Role in DB:", user.Role)
 
 	if err != nil {
 		println("Query error:", err.Error())
@@ -90,5 +91,6 @@ func Login(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Login successful",
 		"token":   token,
+		"role":    user.Role,
 	})
 }
