@@ -26,6 +26,7 @@ func main() {
 	protected.Use(middleware.AuthMiddleware())
 	routes.SetupCourseRoutes(protected)
 	routes.SetupUserRoutes(protected)
+	routes.SetupMentorRoutes(protected)
 
 	// 4. Run server
 	r.Run(":8080")
