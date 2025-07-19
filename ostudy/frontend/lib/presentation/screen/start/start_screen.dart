@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ostudy/presentation/core/components/boarding_category.dart';
 import 'package:ostudy/presentation/core/components/button.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
@@ -58,16 +59,9 @@ class StarterPageScreen extends StatelessWidget {
               style: ParagraphBody.smallRegular,
               textAlign: TextAlign.center,
             ),
-            
-
-
-
-
-
-
-
-
-            const SizedBox(height: 24),
+            const SizedBox(height: 32),
+            const BoardingCategory(),
+            const SizedBox(height: 100),
             Text(
               "Your Current Selections Are Not Fixed. Explore Countless Learning Opportunities and Tailor Your Path as You Progress.",
               style: ParagraphBody.smallRegular,
