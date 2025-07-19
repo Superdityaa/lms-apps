@@ -104,6 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: double.infinity,
                   height: 56,
                   text: "Sign Up",
+                  textColor: NeutralColors.white,
                   onPressed: () {
                     Navigator.push(
                       context,

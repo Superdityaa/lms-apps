@@ -56,6 +56,7 @@ class BottomSheetOnBoarding extends StatelessWidget {
               height: 50,
               onPressed: onButtonPressed,
               color: AppColors.orange500,
+              textColor: NeutralColors.white,
             ),
           )
         ],
