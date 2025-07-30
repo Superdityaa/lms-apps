@@ -38,6 +38,9 @@ dependencies:
   flutter_dotenv: ^5.0.2
   flutter_svg: ^2.0.10+1
   google_fonts: ^4.0.4
+  get: ^4.6.5
+  dio: ^5.4.0
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

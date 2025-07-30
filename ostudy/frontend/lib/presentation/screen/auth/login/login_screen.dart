@@ -7,6 +7,7 @@ import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 import 'package:ostudy/presentation/core/utils/app_transition.dart';
 import 'package:ostudy/presentation/screen/auth/register/register_screen.dart';
+import 'package:ostudy/presentation/screen/home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,11 +17,21 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   void _navigateToPage(Widget page) {
     Navigator.push(
       context,
       TransitionPage(page: page),
     );
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -88,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
+                        builder: (context) => const Home(),
                       ),
                     );
                   },
