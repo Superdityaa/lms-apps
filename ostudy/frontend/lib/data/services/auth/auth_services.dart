@@ -16,7 +16,6 @@ class AuthService {
         return null;
       }
     } catch (e) {
-      print('Login error: $e');
       return null;
     }
   }

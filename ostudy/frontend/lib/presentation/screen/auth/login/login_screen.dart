@@ -72,10 +72,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: ParagraphBody.mediumBold,
                 ),
                 const SizedBox(height: 8),
-                const CustomFormInput(
+                CustomFormInput(
                   height: 56,
                   width: double.infinity,
                   hintText: 'Ex : Johndoe@gmail.com',
+                  controller: emailController,
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -83,11 +84,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: ParagraphBody.mediumBold,
                 ),
                 const SizedBox(height: 8),
-                const CustomFormInput(
+                CustomFormInput(
                   height: 56,
                   width: double.infinity,
                   hintText: 'Type Password',
                   isPassword: true,
+                  controller: passwordController,
                 ),
                 const SizedBox(height: 16),
                 MainButton(
@@ -95,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   height: 56,
                   text: "Login",
-                  textColor: AppColors.white(),
+                  textColor: NeutralColors.white,
                   onPressed: () {
                     Navigator.push(
                       context,
