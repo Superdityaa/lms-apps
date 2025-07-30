@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ostudy/presentation/core/components/button.dart';
 import 'package:ostudy/presentation/core/components/outlined_button.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
@@ -44,18 +43,18 @@ class CustomAlert extends StatelessWidget {
                   },
                 ),
                 const SizedBox(width: 8),
-                MainButton(
-                  color: AppColors.orange500,
-                  width: 200,
-                  height: 35,
-                  text: textButton,
-                  onPressed: () {
-                    // Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => ()),
-                    // );
-                  },
-                ),
+                // MainButton(
+                //   color: AppColors.orange500,
+                //   width: 200,
+                //   height: 35,
+                //   text: textButton,
+                //   onPressed: () {
+                //     // Navigator.pushReplacement(
+                //     //   context,
+                //     //   MaterialPageRoute(builder: (context) => ()),
+                //     // );
+                //   },
+                // ),
               ],
             ),
           ],

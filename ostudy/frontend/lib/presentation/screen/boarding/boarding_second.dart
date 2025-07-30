@@ -38,6 +38,7 @@ class BoardingSecondScreen extends StatelessWidget {
                 width: 350,
                 height: 50,
                 color: AppColors.orange500,
+                textColor: NeutralColors.white,
               ),
             ),
           ),

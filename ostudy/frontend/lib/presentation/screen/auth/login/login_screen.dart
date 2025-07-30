@@ -95,6 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   height: 56,
                   text: "Login",
+                  textColor: AppColors.white(),
                   onPressed: () {
                     Navigator.push(
                       context,

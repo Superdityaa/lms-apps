@@ -7,6 +7,7 @@ class MainButton extends StatelessWidget {
   final double width;
   final double height;
   final Color color;
+  final Color textColor;
 
   const MainButton({
     Key? key,
@@ -15,6 +16,7 @@ class MainButton extends StatelessWidget {
     required this.width,
     required this.height,
     required this.color,
+    required this.textColor,
   }) : super(key: key);
 
   @override
@@ -32,9 +34,10 @@ class MainButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: ParagraphBody.mediumBoldWhite
+          style: ParagraphBody.mediumBoldWhite.copyWith(color: textColor),
         ),
       ),
     );
   }
 }
+
