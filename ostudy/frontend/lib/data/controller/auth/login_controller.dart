@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ostudy/data/services/auth/auth_services.dart';
+import 'package:ostudy/data/services/auth/login_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {

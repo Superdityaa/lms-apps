@@ -47,7 +47,8 @@ class _CustomFormInputState extends State<CustomFormInput> {
   void dispose() {
     _focusNode.removeListener(_handleFocusChange);
     _focusNode.dispose();
-    if (widget.controller == null) _controller.dispose(); // only dispose if local
+    if (widget.controller == null)
+      _controller.dispose(); // only dispose if local
     super.dispose();
   }
 
@@ -76,7 +77,9 @@ class _CustomFormInputState extends State<CustomFormInput> {
           ? IconButton(
               icon: Icon(
                 _obscureText ? Icons.visibility_off : Icons.visibility,
-                color: _isFocused ? NeutralColors.black800 : NeutralColors.black200,
+                color: _isFocused
+                    ? NeutralColors.black800
+                    : NeutralColors.black200,
               ),
               onPressed: _togglePasswordVisibility,
             )
@@ -91,7 +94,7 @@ class _CustomFormInputState extends State<CustomFormInput> {
       height: widget.height ?? 60,
       duration: const Duration(milliseconds: 200),
       decoration: BoxDecoration(
-        color: AppColors.white(),
+        color: NeutralColors.white,
         borderRadius: BorderRadius.circular(8),
       ),
       child: SizedBox.expand(
