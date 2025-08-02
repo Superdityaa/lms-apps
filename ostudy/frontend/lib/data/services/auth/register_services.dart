@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
 
-class AuthService {
-  final Dio _dio = Dio(BaseOptions(baseUrl: 'http://localhost:8080/api/login'));
+class RegisterServices {
+  final Dio _dio =
+      Dio(BaseOptions(baseUrl: 'http://localhost:8080/api/register'));
 
-  Future<String?> login(String email, String password) async {
+  Future<String?> register(
+      String username, String email, String password) async {
     try {
-      final response = await _dio.post('/auth/login', data: {
+      final response = await _dio.post('/auth/register', data: {
+        'username': username,
         'email': email,
         'password': password,
       });

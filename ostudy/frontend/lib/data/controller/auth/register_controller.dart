@@ -1,14 +1,14 @@
 import 'package:get/get.dart';
-import 'package:ostudy/data/services/auth/auth_services.dart';
+import 'package:ostudy/data/services/auth/register_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthController extends GetxController {
-  final AuthService _authService = AuthService();
+class RegisterController extends GetxController {
+  final RegisterServices _registerServices = RegisterServices();
   var isLoading = false.obs;
 
-  Future<void> login(String email, String password) async {
+  Future<void> register(String username, String email, String password) async {
     isLoading.value = true;
-    final token = await _authService.login(email, password);
+    final token = await _registerServices.register(username, email, password);
 
     if (token != null) {
       final prefs = await SharedPreferences.getInstance();
@@ -21,13 +21,7 @@ class AuthController extends GetxController {
     isLoading.value = false;
   }
 
-  Future<void> logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
-    Get.offAllNamed('/login');
-  }
-
-  Future<bool> isLoggedIn() async {
+  Future<bool> isSuccessRegister() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.containsKey('token');
   }

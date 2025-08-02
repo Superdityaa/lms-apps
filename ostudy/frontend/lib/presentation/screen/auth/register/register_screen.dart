@@ -16,11 +16,23 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   void _navigateToPage(Widget page) {
     Navigator.push(
       context,
       TransitionPage(page: page),
     );
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -53,20 +65,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   style: ParagraphBody.mediumBold,
                 ),
                 const SizedBox(height: 8),
-                const CustomFormInput(
+                CustomFormInput(
                   height: 56,
                   width: double.infinity,
                   hintText: 'John Doe',
+                  controller: usernameController,
                 ),
                 Text(
                   "Email",
                   style: ParagraphBody.mediumBold,
                 ),
                 const SizedBox(height: 8),
-                const CustomFormInput(
+                CustomFormInput(
                   height: 56,
                   width: double.infinity,
                   hintText: 'Ex : Johndoe@gmail.com',
+                  controller: emailController,
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -74,11 +88,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   style: ParagraphBody.mediumBold,
                 ),
                 const SizedBox(height: 8),
-                const CustomFormInput(
+                CustomFormInput(
                   height: 56,
                   width: double.infinity,
                   hintText: 'Type Password',
                   isPassword: true,
+                  controller: passwordController,
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -86,11 +101,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   style: ParagraphBody.mediumBold,
                 ),
                 const SizedBox(height: 8),
-                const CustomFormInput(
+                CustomFormInput(
                   height: 56,
                   width: double.infinity,
                   hintText: 'Re-type Password',
                   isPassword: true,
+                  controller: passwordController,
                 ),
                 const SizedBox(height: 8),
                 Text(
