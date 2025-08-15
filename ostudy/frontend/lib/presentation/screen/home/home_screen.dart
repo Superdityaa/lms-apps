@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ostudy/presentation/core/components/bottomnavbar.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -11,8 +10,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const SingleChildScrollView(
+    return const Scaffold(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
@@ -27,7 +26,6 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNav(),
     );
   }
 }

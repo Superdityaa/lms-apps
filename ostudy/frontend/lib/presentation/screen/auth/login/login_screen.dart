@@ -7,7 +7,7 @@ import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 import 'package:ostudy/presentation/core/utils/app_transition.dart';
 import 'package:ostudy/presentation/screen/auth/register/register_screen.dart';
-import 'package:ostudy/presentation/screen/home/home_screen.dart';
+import 'package:ostudy/presentation/screen/favorite/favorite_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const Home(),
+                        builder: (context) => const FavoriteCourse(),
                       ),
                     );
                   },
