@@ -64,7 +64,6 @@ class _CustomFormInputState extends State<CustomFormInput> {
       hintStyle: ParagraphBody.smallRegular,
       filled: true,
       fillColor: Colors.white,
-      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
         borderSide: const BorderSide(color: NeutralColors.black100),
