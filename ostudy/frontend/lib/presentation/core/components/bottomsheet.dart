@@ -1,64 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../utils/app_colors.dart';
+import 'package:ostudy/presentation/core/components/outlined_button.dart';
+import 'package:ostudy/presentation/core/utils/app_colors.dart';
 
-class CustomBottomSheet extends StatelessWidget {
-  final int selectedIndex;
-  final ValueChanged<int> onItemTapped;
+class CustomBottomsheet extends StatelessWidget {
+  final String textButton;
+  final Widget? icon;
+  final VoidCallback onPressed;
 
-  const CustomBottomSheet({
-    required this.selectedIndex,
-    required this.onItemTapped,
+  const CustomBottomsheet({
+    required this.textButton,
+    required this.onPressed,
+    this.icon,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      currentIndex: selectedIndex,
-      onTap: onItemTapped,
-      showSelectedLabels: true,
-      showUnselectedLabels: true,
-      selectedItemColor: AppColors.orange500,
-      unselectedItemColor: NeutralColors.black200,
-      items: [
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-              'assets/icons/home-02.svg',
-              // ignore: deprecated_member_use
-              color: NeutralColors.black200,
-              height: 18,
-            ),
-          label: "Home",
+    return Container(
+      decoration: const BoxDecoration(
+        color: NeutralColors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-              'assets/icons/home-02.svg',
-              // ignore: deprecated_member_use
-              color: NeutralColors.black200,
-              height: 18,
+      ),
+      padding: const EdgeInsets.all(16),
+      height: 250,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomOutlinedButton(
+                  text: textButton,
+                  onPressed: onPressed,
+                  icon: icon,
+                )
+              ],
             ),
-          label: "Course",
-        ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-              'assets/icons/heart-3-line.svg',
-              // ignore: deprecated_member_use
-              color: NeutralColors.black200,
-              height: 18,
-            ),
-          label: "Favorite",
-        ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-              'assets/icons/user-3-line.svg',
-              // ignore: deprecated_member_use
-              color: NeutralColors.black200,
-              height: 18,
-            ),
-          label: "Profile",
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }
