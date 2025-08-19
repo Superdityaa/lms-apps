@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 
 class CustomPageTitle extends StatelessWidget {
@@ -35,6 +36,7 @@ class CustomPageTitle extends StatelessWidget {
                 child: SvgPicture.asset(
                   'assets/icons/arrow-narrow-left.svg',
                   height: 18,
+                  color: NeutralColors.black500,
                 ),
               ),
               Expanded(
