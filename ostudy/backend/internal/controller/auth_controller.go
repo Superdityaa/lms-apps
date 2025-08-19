@@ -1,14 +1,14 @@
 package controller
 
 import (
-	helpers "lms-apps/backend/internal/helpers/jwt"
+	"lms-apps/backend/internal/helpers/jwt"
+	"lms-apps/backend/internal/helpers/password"
 	"lms-apps/backend/internal/model"
 	"lms-apps/backend/package/config"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
 )
 
 // Register user
@@ -28,12 +28,12 @@ func Register(c *gin.Context) {
 	}
 
 	// Hashing password
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
+	hashedPassword, err := password.HashPassword(input.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error hashing password"})
 		return
 	}
-	input.Password = string(hashedPassword)
+	input.Password = hashedPassword
 
 	id := uuid.New()
 
@@ -76,13 +76,13 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil {
+	if err := password.CheckPassword(user.Password, input.Password); err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
 		return
 	}
 
 	// Generate token
-	token, err := helpers.GenerateToken(user.ID, user.Role)
+	token, err := jwt.GenerateToken(user.ID, user.Role)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
