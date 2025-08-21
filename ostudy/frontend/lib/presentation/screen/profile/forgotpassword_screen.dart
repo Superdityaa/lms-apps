@@ -4,7 +4,7 @@ import 'package:ostudy/presentation/core/components/form_input.dart';
 import 'package:ostudy/presentation/core/components/page_title.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
-import 'package:ostudy/presentation/screen/profile/changepassword_screen.dart';
+import 'package:ostudy/presentation/screen/courses/detail_course_screen.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -55,7 +55,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ChangePassword(),
+                      builder: (context) => const DetailCourse(),
                     ),
                   );
                 },

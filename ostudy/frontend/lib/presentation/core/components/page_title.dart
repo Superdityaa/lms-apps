@@ -34,7 +34,7 @@ class CustomPageTitle extends StatelessWidget {
               GestureDetector(
                 onTap: onPressed,
                 child: SvgPicture.asset(
-                  'assets/icons/arrow-narrow-left.svg',
+                  'assets/icon/arrow-narrow-left.svg',
                   height: 18,
                   color: NeutralColors.black500,
                 ),
