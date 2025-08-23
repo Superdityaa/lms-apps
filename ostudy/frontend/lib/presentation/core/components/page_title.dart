@@ -25,7 +25,7 @@ class CustomPageTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 81),
+        const SizedBox(height: 48),
         Padding(
           padding: const EdgeInsets.only(left: 32),
           child: Row(
