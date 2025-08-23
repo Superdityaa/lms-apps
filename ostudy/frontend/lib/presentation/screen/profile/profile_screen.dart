@@ -5,6 +5,11 @@ import 'package:ostudy/presentation/core/components/page_title.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 import 'package:ostudy/presentation/screen/auth/login/login_screen.dart';
+import 'package:ostudy/presentation/screen/profile/changepassword_screen.dart';
+import 'package:ostudy/presentation/screen/profile/editprofile_screen.dart';
+import 'package:ostudy/presentation/screen/profile/forgotpassword_screen.dart';
+import 'package:ostudy/presentation/screen/profile/help_support_screen.dart';
+import 'package:ostudy/presentation/screen/profile/settings_notification_screen.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -71,6 +76,14 @@ class _ProfileState extends State<Profile> {
                     Icons.chevron_right,
                     color: NeutralColors.black500
                   ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditProfile(),
+                      ),
+                    );
+                  },
                 ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
@@ -89,7 +102,12 @@ class _ProfileState extends State<Profile> {
                   title: Text("Change Password", style: ParagraphBody.mediumBold),
                   trailing: const Icon(Icons.chevron_right, color: NeutralColors.black500),
                   onTap: () {
-                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChangePassword(),
+                      ),
+                    );
                   }
                 ),
                 ListTile(
@@ -98,7 +116,12 @@ class _ProfileState extends State<Profile> {
                   title: Text("Forgot Password", style: ParagraphBody.mediumBold),
                   trailing: const Icon(Icons.chevron_right, color: NeutralColors.black500),
                   onTap: () {
-                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ForgotPassword(),
+                      ),
+                    );
                   },
                 ),
                 const SizedBox(height: 8),
@@ -118,7 +141,12 @@ class _ProfileState extends State<Profile> {
                   title: Text("Notifications", style: ParagraphBody.mediumBold),
                   trailing: const Icon(Icons.chevron_right, color: NeutralColors.black500),
                   onTap: () {
-                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsNotification(),
+                      ),
+                    );
                   },
                 ),
                 ListTile(
@@ -127,7 +155,12 @@ class _ProfileState extends State<Profile> {
                   title: Text("Help & Support", style: ParagraphBody.mediumBold),
                   trailing: const Icon(Icons.chevron_right, color: NeutralColors.black500),
                   onTap: () {
-                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HelpSupport(),
+                      ),
+                    );
                   },
                 ),
                 const SizedBox(height: 16),

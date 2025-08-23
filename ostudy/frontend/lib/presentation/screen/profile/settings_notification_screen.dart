@@ -19,7 +19,7 @@ class _SettingsNotificationState extends State<SettingsNotification> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomPageTitle(
-              title: "Detail Class",
+              title: "Notifications",
               onPressed: () {
                 Navigator.pop(context);
               },
