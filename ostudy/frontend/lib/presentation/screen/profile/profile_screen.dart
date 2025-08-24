@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:ostudy/presentation/core/components/alert.dart';
 import 'package:ostudy/presentation/core/components/avatar.dart';
 import 'package:ostudy/presentation/core/components/outlined_button.dart';
 import 'package:ostudy/presentation/core/components/page_title.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
-import 'package:ostudy/presentation/screen/auth/login/login_screen.dart';
 import 'package:ostudy/presentation/screen/profile/changepassword_screen.dart';
 import 'package:ostudy/presentation/screen/profile/editprofile_screen.dart';
 import 'package:ostudy/presentation/screen/profile/forgotpassword_screen.dart';
 import 'package:ostudy/presentation/screen/profile/help_support_screen.dart';
+import 'package:ostudy/presentation/screen/profile/list_language_screen.dart';
 import 'package:ostudy/presentation/screen/profile/settings_notification_screen.dart';
 
 class Profile extends StatefulWidget {
@@ -50,7 +51,7 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
               ),
-            const Positioned(
+              const Positioned(
                 bottom: -40,
                 left: 0,
                 right: 0,
@@ -72,10 +73,8 @@ class _ProfileState extends State<Profile> {
                   contentPadding: EdgeInsets.zero,
                   leading: const Icon(Icons.person_outline),
                   title: Text("Profile", style: ParagraphBody.mediumBold),
-                  trailing: const Icon(
-                    Icons.chevron_right,
-                    color: NeutralColors.black500
-                  ),
+                  trailing: const Icon(Icons.chevron_right,
+                      color: NeutralColors.black500),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -88,33 +87,35 @@ class _ProfileState extends State<Profile> {
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: const Icon(Icons.wallet),
-                  title: Text("Payment Method", style: ParagraphBody.mediumBold),
-                  trailing: const Icon(
-                    Icons.chevron_right,
-                    color: NeutralColors.black500
-                  ),
+                  title:
+                      Text("Payment Method", style: ParagraphBody.mediumBold),
+                  trailing: const Icon(Icons.chevron_right,
+                      color: NeutralColors.black500),
                 ),
                 const SizedBox(height: 8),
                 Text("Security", style: ParagraphBody.smallRegular),
                 ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: const Icon(Icons.lock),
-                  title: Text("Change Password", style: ParagraphBody.mediumBold),
-                  trailing: const Icon(Icons.chevron_right, color: NeutralColors.black500),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ChangePassword(),
-                      ),
-                    );
-                  }
-                ),
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.lock),
+                    title: Text("Change Password",
+                        style: ParagraphBody.mediumBold),
+                    trailing: const Icon(Icons.chevron_right,
+                        color: NeutralColors.black500),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ChangePassword(),
+                        ),
+                      );
+                    }),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: const Icon(Icons.lock),
-                  title: Text("Forgot Password", style: ParagraphBody.mediumBold),
-                  trailing: const Icon(Icons.chevron_right, color: NeutralColors.black500),
+                  title:
+                      Text("Forgot Password", style: ParagraphBody.mediumBold),
+                  trailing: const Icon(Icons.chevron_right,
+                      color: NeutralColors.black500),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -130,16 +131,23 @@ class _ProfileState extends State<Profile> {
                   contentPadding: EdgeInsets.zero,
                   leading: const Icon(Icons.public),
                   title: Text("Language", style: ParagraphBody.mediumBold),
-                  trailing: const Icon(Icons.chevron_right, color: NeutralColors.black500),
+                  trailing: const Icon(Icons.chevron_right,
+                      color: NeutralColors.black500),
                   onTap: () {
-                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ListLanguage(),
+                      ),
+                    );
                   },
                 ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: const Icon(Icons.notifications),
                   title: Text("Notifications", style: ParagraphBody.mediumBold),
-                  trailing: const Icon(Icons.chevron_right, color: NeutralColors.black500),
+                  trailing: const Icon(Icons.chevron_right,
+                      color: NeutralColors.black500),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -152,8 +160,10 @@ class _ProfileState extends State<Profile> {
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: const Icon(Icons.help),
-                  title: Text("Help & Support", style: ParagraphBody.mediumBold),
-                  trailing: const Icon(Icons.chevron_right, color: NeutralColors.black500),
+                  title:
+                      Text("Help & Support", style: ParagraphBody.mediumBold),
+                  trailing: const Icon(Icons.chevron_right,
+                      color: NeutralColors.black500),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -168,11 +178,15 @@ class _ProfileState extends State<Profile> {
                   text: "Logout",
                   color: NeutralColors.black50,
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ),
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const CustomAlert(
+                          title: "Are you sure want to logout?",
+                          image: "assets/images/state-logout.png",
+                          textButton: "Yes, Logout",
+                        );
+                      },
                     );
                   },
                 ),
