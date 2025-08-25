@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ostudy/data/services/auth/register_services.dart';
+import 'package:ostudy/data/services/api/auth/register_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterController extends GetxController {
