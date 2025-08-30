@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:ostudy/data/services/model/user_model.dart';
 
-class UserController extends GetxController {
+class UserServices extends GetxController {
   var users = <UserModel>[].obs;
   var isLoading = false.obs;
 
