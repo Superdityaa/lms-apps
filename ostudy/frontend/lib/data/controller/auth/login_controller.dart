@@ -8,12 +8,16 @@ class LoginController extends GetxController {
 
   Future<void> login(String email, String password) async {
     isLoading.value = true;
-    final token = await _loginServices.login(email, password);
+    final loginResponse = await _loginServices.login(email, password);
 
-    if (token != null) {
+    if (loginResponse != null) {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('token', token);
-      Get.snackbar('Success', 'Logged in!');
+      await prefs.setString('token', loginResponse.token);
+      await prefs.setString('role', loginResponse.role);
+      await prefs.setString('user', loginResponse.user.toJson().toString());
+
+      Get.snackbar('Success', 'Welcome ${loginResponse.user.email}');
+      Get.offAllNamed('/home');
     } else {
       Get.snackbar('Error', 'Login failed!');
     }

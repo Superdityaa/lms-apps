@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:ostudy/data/controller/auth/login_controller.dart';
 import 'package:ostudy/presentation/core/components/button.dart';
 import 'package:ostudy/presentation/core/components/form_input.dart';
 import 'package:ostudy/presentation/core/components/outlined_button.dart';
@@ -19,6 +21,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final loginController = Get.put(LoginController());
 
   void _navigateToPage(Widget page) {
     Navigator.push(
@@ -92,21 +95,38 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: passwordController,
                 ),
                 const SizedBox(height: 16),
-                MainButton(
-                  color: AppColors.orange500,
-                  width: double.infinity,
-                  height: 56,
-                  text: "Login",
-                  textColor: NeutralColors.white,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Profile(),
-                      ),
-                    );
-                  },
-                ),
+                Obx(() => MainButton(
+                      color: AppColors.orange500,
+                      width: double.infinity,
+                      height: 56,
+                      text: loginController.isLoading.value
+                          ? "Loading..."
+                          : "Login",
+                      textColor: NeutralColors.white,
+                      onPressed: () async {
+                        final email = emailController.text.trim();
+                        final password = passwordController.text.trim();
+
+                        if (emailController.text.isEmpty ||
+                            passwordController.text.isEmpty) {
+                          Get.snackbar(
+                            "Login Failed",
+                            "Email & password cannot be empty",
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: Colors.red,
+                            colorText: Colors.white,
+                          );
+                          return;
+                        }
+
+                        await loginController.login(email, password);
+
+                        final isLoggedIn = await loginController.isLoggedIn();
+                        if (isLoggedIn) {
+                          Get.offAll(() => const Profile());
+                        }
+                      },
+                    )),
                 const SizedBox(height: 16),
                 Row(
                   children: <Widget>[

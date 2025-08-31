@@ -92,5 +92,13 @@ func Login(c *gin.Context) {
 		"message": "Login successful",
 		"token":   token,
 		"role":    user.Role,
-	})
+		"user": gin.H{
+			"id":           user.ID,
+			"username":     user.Username,
+			"email":        user.Email,
+			"completename": user.Completename,
+			"address":      user.Address,
+		},
+	},
+	)
 }
