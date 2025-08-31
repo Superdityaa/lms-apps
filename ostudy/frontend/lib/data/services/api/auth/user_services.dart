@@ -1,27 +1,31 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
 import 'package:ostudy/data/services/model/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class UserServices extends GetxController {
-  var users = <UserModel>[].obs;
-  var isLoading = false.obs;
+class UserService {
+  final Dio _dio = Dio(BaseOptions(baseUrl: "http://localhost:8080/api"));
 
-  final Dio _dio = Dio();
+  Future<UserModel?> getUserProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("token");
+    final userId = prefs.getString("userId");
 
-  Future<void> fetchUsers() async {
+    if (token == null || userId == null) return null;
+
     try {
-      isLoading(true);
-      final response = await _dio.get("http://localhost:8080/api/users");
+      final response = await _dio.get(
+        "/getUser/$userId",
+        options: Options(
+          headers: {"Authorization": "Bearer $token"},
+        ),
+      );
 
       if (response.statusCode == 200) {
-        users.value = (response.data as List)
-            .map((json) => UserModel.fromJson(json))
-            .toList();
+        return UserModel.fromJson(response.data);
       }
     } catch (e) {
-      print("Error: $e");
-    } finally {
-      isLoading(false);
+      print("Error getUserProfile: $e");
     }
+    return null;
   }
 }

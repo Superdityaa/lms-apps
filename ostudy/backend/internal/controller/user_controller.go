@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"lms-apps/backend/internal/helpers/password"
 	"lms-apps/backend/internal/model"
 	"lms-apps/backend/package/config"
 	"net/http"
@@ -37,10 +38,16 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	_, err := config.DB.Exec(
-		`INSERT INTO tb_user (avatar, username, email, password, completename, address)
-         VALUES ($1, $2, $3, $4, $5, $6)`,
-		user.Username, user.Email, user.Password, user.Completename, user.Address,
+	hashedPassword, err := password.HashPassword(user.Password)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+		return
+	}
+
+	_, err = config.DB.Exec(
+		`INSERT INTO tb_user (avatar, username, email, password, completename, address, role)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+		user.Avatar, user.Username, user.Email, hashedPassword, user.Completename, user.Address, user.Role,
 	)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
@@ -59,9 +66,19 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 
+	hashedPassword := user.Password
+	if user.Password != "" {
+		var err error
+		hashedPassword, err = password.HashPassword(user.Password)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+			return
+		}
+	}
+
 	_, err := config.DB.Exec(
-		`UPDATE tb_user SET avatar=$1, username=$2, email=$3, password=$4, completename=$5, address=$6 WHERE id=$7`,
-		user.Username, user.Email, user.Password, user.Completename, user.Address, id,
+		`UPDATE tb_user SET avatar=$1, username=$2, email=$3, password=$4, completename=$5, address=$6, role=$7 WHERE id=$8`,
+		user.Avatar, user.Username, user.Email, hashedPassword, user.Completename, user.Address, user.Role, id,
 	)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})

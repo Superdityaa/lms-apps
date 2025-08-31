@@ -3,10 +3,12 @@ import 'package:ostudy/presentation/core/utils/app_colors.dart';
 
 class AvatarProfile extends StatelessWidget {
   final bool isEditable;
+  final String? avatarUrl;
   final VoidCallback? onEdit;
 
   const AvatarProfile({
     super.key,
+    this.avatarUrl,
     this.isEditable = false,
     this.onEdit,
   });
@@ -16,9 +18,12 @@ class AvatarProfile extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        const CircleAvatar(
+        CircleAvatar(
           radius: 50,
-          backgroundImage: AssetImage('assets/images/defaultpict.jpg'),
+          backgroundImage: (avatarUrl != null && avatarUrl!.isNotEmpty)
+              ? NetworkImage(avatarUrl!)
+              : const AssetImage('assets/images/defaultpict.jpg')
+                  as ImageProvider,
         ),
         if (isEditable)
           Positioned(
@@ -29,7 +34,7 @@ class AvatarProfile extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(6),
                 decoration: const BoxDecoration(
-                  color:AppColors.orange500,
+                  color: AppColors.orange500,
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
