@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ostudy/presentation/core/components/avatar.dart';
 import 'package:ostudy/presentation/core/components/page_title.dart';
+import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 
 class ListMentor extends StatefulWidget {
   const ListMentor({super.key});
@@ -24,14 +25,20 @@ class _ListMentorState extends State<ListMentor> {
               },
             ),
             const SizedBox(height: 32),
-            const Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                AvatarProfile(
+                const AvatarProfile(
                   isEditable: true,
                 ),
                 Column(
-                  children: [],
+                  children: [
+                    Text("Jonny", style: ParagraphBody.smallBold),
+                    Text(
+                      "Web Developer",
+                      style: ParagraphBody.xsmallRegular,
+                    )
+                  ],
                 ),
               ],
             ),
