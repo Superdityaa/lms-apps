@@ -3,8 +3,10 @@ package controller
 import (
 	"database/sql"
 	"net/http"
+	"os"
 	"time"
 
+	"lms-apps/backend/internal/helpers/mailers"
 	"lms-apps/backend/internal/helpers/password"
 	"lms-apps/backend/package/config"
 
@@ -30,9 +32,8 @@ func ForgotPasswordHandler(c *gin.Context) {
 	}
 
 	var userID string
-	err := config.DB.QueryRow("SELECT id FROM users WHERE email=$1", req.Email).Scan(&userID)
+	err := config.DB.QueryRow("SELECT id FROM tb_password_resets WHERE email=$1", req.Email).Scan(&userID)
 	if err == sql.ErrNoRows {
-		// jangan kasih tau kalau email tidak ada (security reason)
 		c.JSON(http.StatusOK, gin.H{"message": "If this email exists, reset link has been sent"})
 		return
 	} else if err != nil {
@@ -44,7 +45,7 @@ func ForgotPasswordHandler(c *gin.Context) {
 	expiredAt := time.Now().Add(15 * time.Minute)
 
 	_, err = config.DB.Exec(`
-		INSERT INTO password_resets (user_id, token, expired_at) 
+		INSERT INTO tb_password_resets (id, token, expired_at) 
 		VALUES ($1, $2, $3)
 	`, userID, token, expiredAt)
 	if err != nil {
@@ -52,8 +53,10 @@ func ForgotPasswordHandler(c *gin.Context) {
 		return
 	}
 
-	// resetURL := os.Getenv("FRONTEND_URL") + "/reset-password?token=" + token
-	// println("Reset link:", resetURL)
+	resetURL := os.Getenv("FRONTEND_URL") + "/reset-password?token=" + token
+	body := "<p>Click link below to reset your password:</p><a href='" + resetURL + "'>Reset Password</a>"
+
+	_ = mailers.SendEmail(req.Email, "Password Reset", body)
 
 	c.JSON(http.StatusOK, gin.H{"message": "If this email exists, reset link has been sent"})
 }
@@ -68,7 +71,7 @@ func ResetPasswordHandler(c *gin.Context) {
 
 	var userID string
 	var expiredAt time.Time
-	err := config.DB.QueryRow("SELECT user_id, expired_at FROM password_resets WHERE token=$1", req.Token).
+	err := config.DB.QueryRow("SELECT user_id, expired_at FROM tb_password_resets WHERE token=$1", req.Token).
 		Scan(&userID, &expiredAt)
 	if err == sql.ErrNoRows {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or expired token"})
@@ -94,8 +97,6 @@ func ResetPasswordHandler(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update password"})
 		return
 	}
-
-	_, _ = config.DB.Exec("DELETE FROM password_resets WHERE token=$1", req.Token)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Password reset successful"})
 }
