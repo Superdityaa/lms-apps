@@ -5,6 +5,7 @@ import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 import 'package:ostudy/presentation/core/utils/app_transition.dart';
 import 'package:ostudy/presentation/screen/auth/login/login_screen.dart';
 import 'package:ostudy/presentation/screen/auth/register/register_screen.dart';
+import 'package:ostudy/presentation/screen/profile/profile_screen.dart';
 
 class BoardingFifthScreen extends StatelessWidget {
   const BoardingFifthScreen({super.key});
@@ -17,6 +18,7 @@ class BoardingFifthScreen extends StatelessWidget {
         TransitionPage(page: page),
       );
     }
+
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -36,7 +38,9 @@ class BoardingFifthScreen extends StatelessWidget {
                   Image.asset('assets/images/logo-text.png',
                       width: 75, height: 50),
                   TextButton(
-                    onPressed: () { _navigateToPage(const LoginScreen()); },
+                    onPressed: () {
+                      _navigateToPage(const LoginScreen());
+                    },
                     child: Text(
                       "Skip",
                       style: ParagraphBody.mediumRegular,
@@ -45,9 +49,7 @@ class BoardingFifthScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 24),
-
             Expanded(
               flex: 5,
               child: Padding(
@@ -57,7 +59,6 @@ class BoardingFifthScreen extends StatelessWidget {
                 ),
               ),
             ),
-
             BottomSheetOnBoarding(
               headerText: "Unlock Your Potential \nwith OStudy",
               subHeaderText:
@@ -74,7 +75,7 @@ class BoardingFifthScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const RegisterScreen(),
+                    builder: (context) => const Profile(),
                   ),
                 );
               },

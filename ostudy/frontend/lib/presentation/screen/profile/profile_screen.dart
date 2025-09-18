@@ -43,6 +43,7 @@ class _ProfileState extends State<Profile> {
                   children: [
                     CustomPageTitle(
                       title: "My Profile",
+                      showLeftIcon: false,
                       onPressed: () {
                         Navigator.pop(context);
                       },
