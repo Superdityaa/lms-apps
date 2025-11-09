@@ -21,8 +21,8 @@ func GetCourse(c *gin.Context) {
 	var courses []model.Course
 	for rows.Next() {
 		var course model.Course
-		if err := rows.Scan(&course.ID, &course.CourseName, &course.Price, &course.Category, &course.Description); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning courses"})
+		if err := rows.Scan(&course.ID, &course.CourseName, &course.Price, &course.Category, &course.Description, &course.Thumbnail); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning courses", "details": err.Error()})
 			return
 		}
 		courses = append(courses, course)
@@ -42,12 +42,12 @@ func CreateCourse(c *gin.Context) {
 	id := uuid.New().String()
 
 	_, err := config.DB.Exec(
-		`INSERT INTO tb_course (id, thumbnail coursename, price, category, description)
+		`INSERT INTO tb_course (id, thumbnail, coursename, price, category, description)
          VALUES ($1, $2, $3, $4, $5, $6)`,
-		id, course.CourseName, course.Price, course.Category, course.Description,
+		id, course.Thumbnail, course.CourseName, course.Price, course.Category, course.Description,
 	)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create course"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create course", "details": err.Error()})
 		return
 	}
 
@@ -65,12 +65,12 @@ func UpdateCourse(c *gin.Context) {
 
 	_, err := config.DB.Exec(
 		`UPDATE tb_course 
-         SET  thumbnail=$1 coursename=$2, price=$3, category=$4, description=$5
+         SET  thumbnail=$1, coursename=$2, price=$3, category=$4, description=$5
          WHERE id=$6`,
-		course.CourseName, course.Price, course.Category, course.Description, id,
+		course.Thumbnail, course.CourseName, course.Price, course.Category, course.Description, id,
 	)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update course"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update course", "details": err.Error()})
 		return
 	}
 

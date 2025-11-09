@@ -27,6 +27,7 @@ func main() {
 	routes.SetupCourseRoutes(protected)
 	routes.SetupUserRoutes(protected)
 	routes.SetupMentorRoutes(protected)
+	routes.SetupEnrollRoutes(protected)
 
 	// 4. Run server
 	r.Run(":8080")
