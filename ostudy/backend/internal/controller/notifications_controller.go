@@ -35,7 +35,7 @@ func GetNotifications(c *gin.Context) {
 	var notifications []model.Notifications
 	for rows.Next() {
 		var n model.Notifications
-		rows.Scan(&n.ID, &n.UserID, &n.Message, &n.CreatedAt)
+		rows.Scan(&n.ID, &n.UserID, &n.Message, &n.CreateOn)
 		notifications = append(notifications, n)
 	}
 

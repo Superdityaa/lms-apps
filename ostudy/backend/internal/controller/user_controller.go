@@ -7,11 +7,14 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 // GetAllUsers
 func GetUsers(c *gin.Context) {
-	rows, err := config.DB.Query("SELECT * FROM tb_user")
+	rows, err := config.DB.Query(`
+        SELECT id, username, email, password, completename, address, role, COALESCE(avatar, '') AS avatar, create_on FROM tb_user
+    `)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve users"})
 		return
@@ -21,8 +24,8 @@ func GetUsers(c *gin.Context) {
 	var users []model.User
 	for rows.Next() {
 		var u model.User
-		if err := rows.Scan(&u.ID, &u.Avatar, &u.Username, &u.Email, &u.Password, &u.Completename, &u.Address); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning users"})
+		if err := rows.Scan(&u.ID, &u.Username, &u.Email, &u.Password, &u.Completename, &u.Address, &u.Role, &u.Avatar, &u.CreateOn); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning users", "details": err.Error()})
 			return
 		}
 		users = append(users, u)
@@ -37,6 +40,7 @@ func CreateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
+	user.ID = uuid.New().String()
 
 	hashedPassword, err := password.HashPassword(user.Password)
 	if err != nil {
@@ -45,12 +49,13 @@ func CreateUser(c *gin.Context) {
 	}
 
 	_, err = config.DB.Exec(
-		`INSERT INTO tb_user (avatar, username, email, password, completename, address, role)
-         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-		user.Avatar, user.Username, user.Email, hashedPassword, user.Completename, user.Address, user.Role,
+		`INSERT INTO tb_user (id, avatar, username, email, password, completename, address, role)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+		user.ID, user.Avatar, user.Username, user.Email, hashedPassword, user.Completename, user.Address, user.Role,
 	)
+
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user", "details": err.Error()})
 		return
 	}
 

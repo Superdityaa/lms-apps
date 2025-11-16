@@ -11,7 +11,7 @@ import (
 
 // Get Course
 func GetCourse(c *gin.Context) {
-	rows, err := config.DB.Query("SELECT * FROM tb_course")
+	rows, err := config.DB.Query("SELECT id, coursename, price, category, description, COALESCE(thumbnail, '') AS thumbnail, create_on FROM tb_course")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve courses"})
 		return
@@ -21,7 +21,7 @@ func GetCourse(c *gin.Context) {
 	var courses []model.Course
 	for rows.Next() {
 		var course model.Course
-		if err := rows.Scan(&course.ID, &course.CourseName, &course.Price, &course.Category, &course.Description, &course.Thumbnail); err != nil {
+		if err := rows.Scan(&course.ID, &course.CourseName, &course.Price, &course.Category, &course.Description, &course.Thumbnail, &course.CreateOn); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning courses", "details": err.Error()})
 			return
 		}

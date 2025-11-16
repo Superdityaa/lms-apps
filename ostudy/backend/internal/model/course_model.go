@@ -1,10 +1,13 @@
 package model
 
+import "time"
+
 type Course struct {
-	ID          string `json:"id"`
-	Thumbnail   string `json:"thumbnail"`
-	CourseName  string `json:"coursename"`
-	Price       int    `json:"price"`
-	Category    string `json:"category"`
-	Description string `json:"description"`
+	ID          string    `json:"id"`
+	Thumbnail   string    `json:"thumbnail"`
+	CourseName  string    `json:"coursename"`
+	Price       int       `json:"price"`
+	Category    string    `json:"category"`
+	Description string    `json:"description"`
+	CreateOn    time.Time `json:"create_on"`
 }

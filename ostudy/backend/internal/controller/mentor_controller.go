@@ -11,7 +11,9 @@ import (
 
 // Get Mentor
 func GetMentors(c *gin.Context) {
-	rows, err := config.DB.Query("SELECT * FROM tb_mentor")
+	rows, err := config.DB.Query(`
+        SELECT id,  COALESCE(avatar, '') AS avatar, name, role, description, create_on FROM tb_mentor
+    `)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve users"})
 		return
@@ -21,7 +23,7 @@ func GetMentors(c *gin.Context) {
 	var users []model.Mentor
 	for rows.Next() {
 		var u model.Mentor
-		if err := rows.Scan(&u.ID, &u.Avatar, &u.Name, &u.Role, &u.Description); err != nil {
+		if err := rows.Scan(&u.ID, &u.Avatar, &u.Name, &u.Role, &u.Description, &u.CreateOn); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning users"})
 			return
 		}
