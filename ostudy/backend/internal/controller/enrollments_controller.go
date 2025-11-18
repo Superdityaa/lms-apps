@@ -7,13 +7,14 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 // Get all enrollments
 func GetEnrollments(c *gin.Context) {
-	rows, err := config.DB.Query("SELECT id, user_id, course_id, enrolled_at FROM tb_enrollment")
+	rows, err := config.DB.Query("SELECT id, user_id, course_id, enrolled_on FROM tb_enrollment")
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve enrollments"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve enrollments", "details": err.Error()})
 		return
 	}
 	defer rows.Close()
@@ -21,8 +22,8 @@ func GetEnrollments(c *gin.Context) {
 	var enrollments []model.Enrollment
 	for rows.Next() {
 		var e model.Enrollment
-		if err := rows.Scan(&e.ID, &e.UserID, &e.CourseID, &e.EnrolledAt); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning enrollments"})
+		if err := rows.Scan(&e.ID, &e.UserID, &e.CourseID, &e.EnrolledOn); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning enrollments", "details": err.Error()})
 			return
 		}
 		enrollments = append(enrollments, e)
@@ -50,7 +51,7 @@ func EnrollCourse(c *gin.Context) {
 	).Scan(&exists)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to check enrollment"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to check enrollment", "details": err.Error()})
 		return
 	}
 
@@ -60,10 +61,11 @@ func EnrollCourse(c *gin.Context) {
 	}
 
 	// Insert enrollment record
+	enrollID := uuid.New().String()
 	_, err = config.DB.Exec(
-		`INSERT INTO tb_enrollment (user_id, course_id, enrolled_at)
+		`INSERT INTO tb_enrollment (user_id, course_id, enrolled_on)
 		 VALUES ($1, $2, $3)`,
-		req.UserID, req.CourseID, time.Now(),
+		enrollID, req.UserID, req.CourseID, time.Now(),
 	)
 
 	if err != nil {
@@ -71,7 +73,26 @@ func EnrollCourse(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "Enrollment successful"})
+	var courseName, completeName string
+
+	err = config.DB.QueryRow(`
+		SELECT c.coursename, u.completename
+		FROM tb_course c
+		JOIN tb_user u ON u.id = $1
+		WHERE c.id = $2
+	`, req.UserID, req.CourseID).Scan(&courseName, &completeName)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch user/course info", "details": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Enrollment successful",
+		"enrollment_id": enrollID,
+		"user_id":       req.UserID,
+		"course_id":     req.CourseID,
+		"coursename":    courseName,
+		"completename":  completeName})
 
 }
 
@@ -95,7 +116,7 @@ func GetCoursesByUser(c *gin.Context) {
 	for rows.Next() {
 		var course model.Course
 		if err := rows.Scan(&course.ID, &course.Thumbnail, &course.CourseName, &course.Price, &course.Category, &course.Description); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning courses"})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning courses", "details": err.Error()})
 			return
 		}
 		courses = append(courses, course)
