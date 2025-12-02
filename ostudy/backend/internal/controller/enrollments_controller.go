@@ -63,13 +63,22 @@ func EnrollCourse(c *gin.Context) {
 	// Insert enrollment record
 	enrollID := uuid.New().String()
 	_, err = config.DB.Exec(
-		`INSERT INTO tb_enrollment (user_id, course_id, enrolled_on)
-		 VALUES ($1, $2, $3)`,
+		`INSERT INTO tb_enrollment (id, user_id, course_id, enrolled_on)
+		 VALUES ($1, $2, $3, $4)`,
 		enrollID, req.UserID, req.CourseID, time.Now(),
 	)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to enroll user", "details": err.Error()})
+		return
+	}
+
+	notifMsg := "Anda berhasil membeli course baru!"
+	if err := CreateNotification(req.UserID, notifMsg); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "Enrollment success but notification failed",
+			"details": err.Error(),
+		})
 		return
 	}
 

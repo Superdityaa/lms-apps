@@ -27,7 +27,16 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired token"})
 			return
 		}
+
 		if claims, ok := token.Claims.(jwt.MapClaims); ok {
+
+			if userID, ok := claims["user_id"].(string); ok {
+				c.Set("user_id", userID)
+			} else {
+				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid user id in token"})
+				return
+			}
+
 			if role, ok := claims["role"].(string); ok {
 				c.Set("role", role)
 			} else {
@@ -35,6 +44,7 @@ func AuthMiddleware() gin.HandlerFunc {
 				return
 			}
 		}
+
 		c.Next()
 	}
 }

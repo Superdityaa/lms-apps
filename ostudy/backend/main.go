@@ -28,6 +28,7 @@ func main() {
 	routes.SetupUserRoutes(protected)
 	routes.SetupMentorRoutes(protected)
 	routes.SetupEnrollRoutes(protected)
+	routes.SetupNotifications(protected)
 
 	// 4. Run server
 	r.Run(":8080")
