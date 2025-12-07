@@ -1,8 +1,10 @@
 package mailers
 
 import (
+	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	"gopkg.in/gomail.v2"
 )
@@ -10,8 +12,21 @@ import (
 func SendEmail(to string, subject string, body string) error {
 	smtpHost := os.Getenv("SMTP_HOST")
 	smtpPort := 587
+	if p := os.Getenv("SMTP_PORT"); p != "" {
+		if port, err := strconv.Atoi(p); err == nil {
+			smtpPort = port
+		} else {
+			log.Printf("Invalid SMTP_PORT=%s, using default 587: %v", p, err)
+		}
+	}
 	smtpUser := os.Getenv("SMTP_USER")
 	smtpPass := os.Getenv("SMTP_PASSWORD")
+
+	if smtpHost == "" || smtpUser == "" || smtpPass == "" {
+		err := fmt.Errorf("smtp configuration missing (SMTP_HOST/SMTP_USER/SMTP_PASSWORD)")
+		log.Printf("%v", err)
+		return err
+	}
 
 	m := gomail.NewMessage()
 	m.SetHeader("From", smtpUser)
