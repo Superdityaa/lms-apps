@@ -1,8 +1,10 @@
 package controller
 
 import (
+	"fmt"
 	"lms-apps/backend/internal/model"
 	"lms-apps/backend/package/config"
+	"log"
 	"net/http"
 	"time"
 
@@ -29,6 +31,11 @@ func GetEnrollments(c *gin.Context) {
 		enrollments = append(enrollments, e)
 	}
 
+	if err := rows.Err(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error iterating enrollments", "details": err.Error()})
+		return
+	}
+
 	c.JSON(http.StatusOK, enrollments)
 }
 
@@ -41,6 +48,11 @@ func EnrollCourse(c *gin.Context) {
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
+	}
+
+	// If request is authenticated, prefer token user id so notification and enrollment align
+	if raw, ok := c.Get("user_id"); ok {
+		req.UserID = fmt.Sprintf("%v", raw)
 	}
 
 	// Check if already enrolled
@@ -65,7 +77,7 @@ func EnrollCourse(c *gin.Context) {
 	_, err = config.DB.Exec(
 		`INSERT INTO tb_enrollment (id, user_id, course_id, enrolled_on)
 		 VALUES ($1, $2, $3, $4)`,
-		enrollID, req.UserID, req.CourseID, time.Now(),
+		enrollID, req.UserID, req.CourseID, time.Now().UTC(),
 	)
 
 	if err != nil {
@@ -75,11 +87,8 @@ func EnrollCourse(c *gin.Context) {
 
 	notifMsg := "Anda berhasil membeli course baru!"
 	if err := CreateNotification(req.UserID, notifMsg); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error":   "Enrollment success but notification failed",
-			"details": err.Error(),
-		})
-		return
+		log.Printf("CreateNotification failed for user %s: %v", req.UserID, err)
+		// don't block enrollment success if notification fails
 	}
 
 	var courseName, completeName string
@@ -129,6 +138,11 @@ func GetCoursesByUser(c *gin.Context) {
 			return
 		}
 		courses = append(courses, course)
+	}
+
+	if err := rows.Err(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error iterating courses", "details": err.Error()})
+		return
 	}
 
 	c.JSON(http.StatusOK, courses)
