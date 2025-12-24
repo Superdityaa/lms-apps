@@ -28,49 +28,46 @@ class CustomPageTitle extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 48),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Left icon
-              if (showLeftIcon)
-                GestureDetector(
-                  onTap: onPressed,
-                  child: icon ??
-                      SvgPicture.asset(
-                        'assets/icon/arrow-narrow-left.svg',
-                        height: 18,
-                        color: NeutralColors.black500,
-                      ),
-                )
-              else
-                const SizedBox(width: 20), // Placeholder supaya balance
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Left icon
+            if (showLeftIcon)
+              GestureDetector(
+                onTap: onPressed,
+                child: icon ??
+                    SvgPicture.asset(
+                      'assets/icon/arrow-narrow-left.svg',
+                      height: 18,
+                      color: NeutralColors.black500,
+                    ),
+              )
+            else
+              const SizedBox(width: 20), // Placeholder supaya balance
 
-              // Title (selalu center)
-              Expanded(
-                child: Center(
-                  child: Text(
-                    title,
-                    style: HeadingBold.heading5,
-                    textAlign: TextAlign.center,
-                  ),
+            // Title (selalu center)
+            Expanded(
+              child: Center(
+                child: Text(
+                  title,
+                  style: HeadingBold.heading5,
+                  textAlign: TextAlign.center,
                 ),
               ),
+            ),
 
-              // Right icon
-              if (showRightIcon && rightIconAsset != null)
-                GestureDetector(
-                  onTap: onRightIconPressed,
-                  child: SvgPicture.asset(
-                    rightIconAsset!,
-                    height: 20,
-                  ),
-                )
-              else
-                const SizedBox(width: 20),
-            ],
-          ),
+            // Right icon
+            if (showRightIcon && rightIconAsset != null)
+              GestureDetector(
+                onTap: onRightIconPressed,
+                child: SvgPicture.asset(
+                  rightIconAsset!,
+                  height: 20,
+                ),
+              )
+            else
+              const SizedBox(width: 20),
+          ],
         ),
       ],
     );

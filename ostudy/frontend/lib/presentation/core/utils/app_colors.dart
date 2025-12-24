@@ -49,8 +49,8 @@ class GradientColors {
   );
 }
 
-class ValidationFormColors{
+class ValidationFormColors {
   static const Color shadowActive = Color(0xF9B39D69);
   static const Color shadowWrong = Color(0x00ec778d);
-  static const Color wrongColor = Color (0xDF1C4126);
+  static const Color wrongColor = Color(0xDF1C4126);
 }
