@@ -7,7 +7,7 @@ import 'package:ostudy/presentation/core/components/form_input.dart';
 import 'package:ostudy/presentation/core/components/outlined_button.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
-import 'package:ostudy/presentation/core/utils/app_transition.dart';
+// import 'package:ostudy/presentation/core/utils/app_transition.dart';
 import 'package:ostudy/presentation/screen/auth/register/register_screen.dart';
 import 'package:ostudy/presentation/screen/profile/profile_screen.dart';
 
@@ -23,12 +23,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   final loginController = Get.put(LoginController());
 
-  void _navigateToPage(Widget page) {
-    Navigator.push(
-      context,
-      TransitionPage(page: page),
-    );
-  }
+  // void _navigateToPage(Widget page) {
+  //   Navigator.push(
+  //     context,
+  //     TransitionPage(page: page),
+  //   );
+  // }
 
   @override
   void dispose() {
@@ -119,10 +119,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           return;
                         }
 
-                        await loginController.login(email, password);
-
-                        final isLoggedIn = await loginController.isLoggedIn();
-                        if (isLoggedIn) {
+                        final success =
+                            await loginController.login(email, password);
+                        if (success) {
                           Get.offAll(() => const Profile());
                         }
                       },
