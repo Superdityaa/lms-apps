@@ -30,103 +30,109 @@ class _ListLanguageState extends State<ListLanguage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomPageTitle(
-              title: "Language",
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            const SizedBox(height: 32),
-            Text(
-              "Choose Language",
-              style: ParagraphBody.mediumRegular,
-            ),
-            const SizedBox(height: 32),
-            Column(
-              children: List.generate(
-                _listLanguage.length,
-                (index) {
-                  final language = _listLanguage[index];
-                  final isSelected = language["isSelected"] as bool;
-
-                  return GestureDetector(
-                    onTap: () => _toggleSelection(index),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 8),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? AppColors.orange50
-                            : NeutralColors.white,
-                        border: Border.all(
-                          color: isSelected
-                              ? AppColors.orange500
-                              : NeutralColors.black50,
-                          width: 1.5,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              language["title"],
-                              style: ParagraphBody.mediumRegular,
-                            ),
-                          ),
-                          Container(
-                            width: 15,
-                            height: 15,
-                            decoration: BoxDecoration(
-                              color: isSelected
-                                  ? AppColors.orange500
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(4),
-                              border: Border.all(
-                                color: isSelected
-                                    ? AppColors.orange50
-                                    : NeutralColors.black50,
-                                width: 1.5,
-                              ),
-                            ),
-                            child: isSelected
-                                ? const Icon(
-                                    Icons.check,
-                                    size: 10,
-                                    color: Colors.white,
-                                  )
-                                : null,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+      backgroundColor: NeutralColors.white,
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomPageTitle(
+                title: "Language",
+                onPressed: () {
+                  Navigator.pop(context);
                 },
               ),
-            ),
-            const SizedBox(height: 150),
-            MainButton(
-                text: "Send",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Profile(),
-                    ),
-                  );
-                },
-                width: 400,
-                height: 50,
-                color: AppColors.orange500,
-                textColor: NeutralColors.white),
-          ],
+              SizedBox(height: size.height * 0.04),
+              Text(
+                "Choose Language",
+                style: ParagraphBody.mediumRegular,
+              ),
+              SizedBox(height: size.height * 0.04),
+              Column(
+                children: List.generate(
+                  _listLanguage.length,
+                  (index) {
+                    final language = _listLanguage[index];
+                    final isSelected = language["isSelected"] as bool;
+
+                    return GestureDetector(
+                      onTap: () => _toggleSelection(index),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? AppColors.orange50
+                              : NeutralColors.white,
+                          border: Border.all(
+                            color: isSelected
+                                ? AppColors.orange500
+                                : NeutralColors.black50,
+                            width: 1.5,
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                language["title"],
+                                style: ParagraphBody.mediumRegular,
+                              ),
+                            ),
+                            Container(
+                              width: 15,
+                              height: 15,
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? AppColors.orange500
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(
+                                  color: isSelected
+                                      ? AppColors.orange50
+                                      : NeutralColors.black50,
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: isSelected
+                                  ? const Icon(
+                                      Icons.check,
+                                      size: 10,
+                                      color: NeutralColors.white,
+                                    )
+                                  : null,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: size.height * 0.08),
+              MainButton(
+                  text: "Save Changes",
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Profile(),
+                      ),
+                    );
+                  },
+                  width: 400,
+                  height: 50,
+                  color: AppColors.orange500,
+                  textColor: NeutralColors.white),
+            ],
+          ),
         ),
       ),
     );

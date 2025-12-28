@@ -4,7 +4,6 @@ import 'package:ostudy/presentation/core/components/form_input.dart';
 import 'package:ostudy/presentation/core/components/page_title.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
-import 'package:ostudy/presentation/screen/profile/forgotpassword_screen.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -28,72 +27,88 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-        child: Column(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomPageTitle(
-                  title: "Change Password",
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                const SizedBox(height: 32),
-                Text(
-                  "The new password must be different from the current password",
-                  style: ParagraphBody.mediumRegular,
-                ),
-                const SizedBox(height: 32),
-                _buildInput(
-                    "Old Password", "Old Password", oldPasswordController),
-                const SizedBox(height: 24),
-                _buildInput(
-                    "New Password", "New Password", newPasswordController),
-                const SizedBox(height: 24),
-                _buildInput("Confirm New Password", "Confirm New Password",
-                    confirmNewPasswordController),
-                const SizedBox(height: 220),
-                MainButton(
-                    text: "Send",
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ForgotPassword(),
-                        ),
-                      );
-                    },
-                    width: 400,
-                    height: 50,
-                    color: AppColors.orange500,
-                    textColor: NeutralColors.white)
-              ],
-            ),
-          ],
+      backgroundColor: NeutralColors.white,
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            children: [
+              CustomPageTitle(
+                title: "Change Password",
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              SizedBox(height: size.height * 0.04),
+              Text(
+                "The new password must be different from the current password",
+                style: ParagraphBody.mediumRegular,
+                textAlign: TextAlign.left,
+              ),
+
+              SizedBox(height: size.height * 0.04),
+
+              // Old Password
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Old Password", style: ParagraphBody.mediumBold),
+                  SizedBox(height: size.height * 0.02),
+                  const CustomFormInput(
+                    height: 56,
+                    width: double.infinity,
+                    hintText: "Old Password",
+                    isPassword: true,
+                  ),
+                ],
+              ),
+              SizedBox(height: size.height * 0.02),
+              // New Password
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("New Password", style: ParagraphBody.mediumBold),
+                  SizedBox(height: size.height * 0.02),
+                  const CustomFormInput(
+                    height: 56,
+                    width: double.infinity,
+                    hintText: "New Password",
+                    isPassword: true,
+                  ),
+                ],
+              ),
+              SizedBox(height: size.height * 0.02),
+              // Confirm Password
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Confirm New Password", style: ParagraphBody.mediumBold),
+                  SizedBox(height: size.height * 0.02),
+                  const CustomFormInput(
+                    height: 56,
+                    width: double.infinity,
+                    hintText: "Confirm New Password",
+                    isPassword: true,
+                  ),
+                ],
+              ),
+              SizedBox(height: size.height * 0.22),
+              MainButton(
+                text: "Save Changes",
+                onPressed: () {},
+                width: double.infinity,
+                height: 56,
+                color: AppColors.orange500,
+                textColor: NeutralColors.white,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-}
-
-@override
-Widget _buildInput(String label, String hint, TextEditingController ctrl) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(label, style: ParagraphBody.mediumBold),
-      const SizedBox(height: 8),
-      CustomFormInput(
-        height: 56,
-        width: double.infinity,
-        hintText: hint,
-        isPassword: true,
-        controller: ctrl,
-      ),
-    ],
-  );
 }

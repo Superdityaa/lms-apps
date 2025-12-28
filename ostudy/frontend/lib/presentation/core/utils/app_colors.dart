@@ -29,6 +29,10 @@ class NeutralColors {
   static const Color black900 = Color(0xFF050505);
 }
 
+class ErrorColors {
+  static const Color red100 = Color(0xFFDF1C41);
+}
+
 class GradientColors {
   static const LinearGradient darkGradient = LinearGradient(
     colors: [AppColors.orange500, NeutralColors.white],

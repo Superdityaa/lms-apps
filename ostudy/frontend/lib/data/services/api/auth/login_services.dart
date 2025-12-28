@@ -21,7 +21,6 @@ class LoginService {
 
       return null;
     } on DioException {
-      // Error is already logged in interceptor
       rethrow;
     } catch (e) {
       print('Unexpected error: $e');
@@ -29,42 +28,42 @@ class LoginService {
     }
   }
 
-  Future<bool> register(Map<String, dynamic> payload) async {
-    try {
-      final response = await _apiClient.dio.post('/register', data: payload);
-      return response.statusCode == 200 || response.statusCode == 201;
-    } catch (e) {
-      print('Register error: $e');
-      return false;
-    }
-  }
+  // Future<bool> register(Map<String, dynamic> payload) async {
+  //   try {
+  //     final response = await _apiClient.dio.post('/register', data: payload);
+  //     return response.statusCode == 200 || response.statusCode == 201;
+  //   } catch (e) {
+  //     print('Register error: $e');
+  //     return false;
+  //   }
+  // }
 
-  Future<bool> forgotPassword(String email) async {
-    try {
-      final response = await _apiClient.dio.post(
-        '/forgot-password',
-        data: {'email': email},
-      );
-      return response.statusCode == 200;
-    } catch (e) {
-      print('Forgot password error: $e');
-      return false;
-    }
-  }
+  // Future<bool> forgotPassword(String email) async {
+  //   try {
+  //     final response = await _apiClient.dio.post(
+  //       '/forgot-password',
+  //       data: {'email': email},
+  //     );
+  //     return response.statusCode == 200;
+  //   } catch (e) {
+  //     print('Forgot password error: $e');
+  //     return false;
+  //   }
+  // }
 
-  Future<bool> resetPassword(String token, String newPassword) async {
-    try {
-      final response = await _apiClient.dio.post(
-        '/reset-password',
-        data: {
-          'token': token,
-          'password': newPassword,
-        },
-      );
-      return response.statusCode == 200;
-    } catch (e) {
-      print('Reset password error: $e');
-      return false;
-    }
-  }
+  // Future<bool> resetPassword(String token, String newPassword) async {
+  //   try {
+  //     final response = await _apiClient.dio.post(
+  //       '/reset-password',
+  //       data: {
+  //         'token': token,
+  //         'password': newPassword,
+  //       },
+  //     );
+  //     return response.statusCode == 200;
+  //   } catch (e) {
+  //     print('Reset password error: $e');
+  //     return false;
+  //   }
+  // }
 }

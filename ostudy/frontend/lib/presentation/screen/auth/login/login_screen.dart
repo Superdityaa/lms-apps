@@ -94,6 +94,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   isPassword: true,
                   controller: passwordController,
                 ),
+                Obx(() {
+                  if (loginController.fieldError.value.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: Text(
+                      loginController.fieldError.value,
+                      style: ParagraphBody.smallRegular.copyWith(
+                        color: ErrorColors.red100,
+                      ),
+                    ),
+                  );
+                }),
                 const SizedBox(height: 16),
                 Obx(() => MainButton(
                       color: AppColors.orange500,
@@ -107,15 +121,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         final email = emailController.text.trim();
                         final password = passwordController.text.trim();
 
-                        if (emailController.text.isEmpty ||
-                            passwordController.text.isEmpty) {
-                          Get.snackbar(
-                            "Login Failed",
-                            "Email & password cannot be empty",
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: Colors.red,
-                            colorText: Colors.white,
-                          );
+                        if (email.isEmpty || password.isEmpty) {
+                          loginController.fieldError.value =
+                              'Email and password cannot be empty';
                           return;
                         }
 

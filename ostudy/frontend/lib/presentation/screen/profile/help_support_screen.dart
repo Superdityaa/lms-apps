@@ -32,7 +32,6 @@ class _HelpSupportState extends State<HelpSupport> {
               },
             ),
             const SizedBox(height: 32),
-
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
@@ -48,7 +47,8 @@ class _HelpSupportState extends State<HelpSupport> {
                   trailing: AnimatedRotation(
                     turns: _isExpandedTeamSupport ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
-                    child: const Icon(Icons.expand_more, color: AppColors.orange500),
+                    child: const Icon(Icons.expand_more,
+                        color: AppColors.orange500),
                   ),
                   onExpansionChanged: (expanded) {
                     setState(() => _isExpandedTeamSupport = expanded);
@@ -76,11 +76,13 @@ class _HelpSupportState extends State<HelpSupport> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: ExpansionTile(
-                  title: Text("Support Center at Your Fingertips", style: ParagraphBody.mediumBold),
+                  title: Text("Support Center at Your Fingertips",
+                      style: ParagraphBody.mediumBold),
                   trailing: AnimatedRotation(
                     turns: _isExpandedSupportCenter ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
-                    child: const Icon(Icons.expand_more, color: AppColors.orange500),
+                    child: const Icon(Icons.expand_more,
+                        color: AppColors.orange500),
                   ),
                   onExpansionChanged: (expanded) {
                     setState(() => _isExpandedSupportCenter = expanded);
@@ -112,7 +114,8 @@ class _HelpSupportState extends State<HelpSupport> {
                   trailing: AnimatedRotation(
                     turns: _isExpandedExploreFAQ ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
-                    child: const Icon(Icons.expand_more, color: AppColors.orange500),
+                    child: const Icon(Icons.expand_more,
+                        color: AppColors.orange500),
                   ),
                   onExpansionChanged: (expanded) {
                     setState(() => _isExpandedExploreFAQ = expanded);
@@ -140,11 +143,13 @@ class _HelpSupportState extends State<HelpSupport> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: ExpansionTile(
-                  title: Text("Forgotten Password", style: ParagraphBody.mediumBold),
+                  title: Text("Forgotten Password",
+                      style: ParagraphBody.mediumBold),
                   trailing: AnimatedRotation(
                     turns: _isExpandedForgotPassword ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
-                    child: const Icon(Icons.expand_more, color: AppColors.orange500),
+                    child: const Icon(Icons.expand_more,
+                        color: AppColors.orange500),
                   ),
                   onExpansionChanged: (expanded) {
                     setState(() => _isExpandedForgotPassword = expanded);
@@ -172,11 +177,13 @@ class _HelpSupportState extends State<HelpSupport> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: ExpansionTile(
-                  title: Text("Remove Account", style: ParagraphBody.mediumBold),
+                  title:
+                      Text("Remove Account", style: ParagraphBody.mediumBold),
                   trailing: AnimatedRotation(
                     turns: _isExpandedRemoveAccount ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
-                    child: const Icon(Icons.expand_more, color: AppColors.orange500),
+                    child: const Icon(Icons.expand_more,
+                        color: AppColors.orange500),
                   ),
                   onExpansionChanged: (expanded) {
                     setState(() => _isExpandedRemoveAccount = expanded);

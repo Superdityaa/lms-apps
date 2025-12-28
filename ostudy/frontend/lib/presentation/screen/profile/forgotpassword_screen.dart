@@ -24,46 +24,51 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomPageTitle(
-              title: "Forgot Password",
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            const SizedBox(height: 32),
-            Text(
-              "We will send the OTP code to your email for security in forgetting your password",
-              style: ParagraphBody.mediumRegular,
-            ),
-            const SizedBox(height: 32),
-            CustomFormInput(
-              height: 56,
-              width: double.infinity,
-              hintText: 'Ex : Johndoe@gmail.com',
-              controller: emailController,
-            ),
-            const SizedBox(height: 460),
-            MainButton(
-                text: "Send",
+      backgroundColor: NeutralColors.white,
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            children: [
+              CustomPageTitle(
+                title: "Forgot Password",
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Profile(),
-                    ),
-                  );
+                  Navigator.pop(context);
                 },
-                width: 400,
-                height: 50,
-                color: AppColors.orange500,
-                textColor: NeutralColors.white),
-          ],
+              ),
+              SizedBox(height: size.height * 0.04),
+              Text(
+                "We will send the OTP code to your email for security in forgetting your password",
+                style: ParagraphBody.mediumRegular,
+              ),
+              SizedBox(height: size.height * 0.04),
+              CustomFormInput(
+                height: 56,
+                width: double.infinity,
+                hintText: 'Ex : Johndoe@gmail.com',
+                controller: emailController,
+              ),
+              SizedBox(height: size.height * 0.55),
+              MainButton(
+                  text: "Send",
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Profile(),
+                      ),
+                    );
+                  },
+                  width: 400,
+                  height: 50,
+                  color: AppColors.orange500,
+                  textColor: NeutralColors.white),
+            ],
+          ),
         ),
       ),
     );

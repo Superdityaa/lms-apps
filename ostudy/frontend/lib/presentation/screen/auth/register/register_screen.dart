@@ -5,7 +5,7 @@ import 'package:ostudy/presentation/core/components/form_input.dart';
 import 'package:ostudy/presentation/core/components/outlined_button.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
-import 'package:ostudy/presentation/core/utils/app_transition.dart';
+// import 'package:ostudy/presentation/core/utils/app_transition.dart';
 import 'package:ostudy/presentation/screen/auth/login/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -20,12 +20,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void _navigateToPage(Widget page) {
-    Navigator.push(
-      context,
-      TransitionPage(page: page),
-    );
-  }
+  // void _navigateToPage(Widget page) {
+  //   Navigator.push(
+  //     context,
+  //     TransitionPage(page: page),
+  //   );
+  // }
 
   @override
   void dispose() {

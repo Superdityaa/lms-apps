@@ -2,62 +2,38 @@ import 'package:flutter/material.dart';
 
 import '../utils/app_colors.dart';
 
-class ToggleSwitch extends StatefulWidget {
-  final bool initialValue;
+class ToggleSwitch extends StatelessWidget {
+  final bool value;
   final ValueChanged<bool> onToggle;
-  final Color activeColor;
-  final Color inactiveColor;
 
   const ToggleSwitch({
-    Key? key,
-    this.initialValue = false,
+    super.key,
+    this.value = false,
     required this.onToggle,
-    this.activeColor = AppColors.orange500,
-    this.inactiveColor = NeutralColors.black200,
-  }) : super(key: key);
-
-  @override
-  _ToggleSwitchState createState() => _ToggleSwitchState();
-}
-
-class _ToggleSwitchState extends State<ToggleSwitch> {
-  late bool isToggled;
-
-  @override
-  void initState() {
-    super.initState();
-    isToggled = widget.initialValue;
-  }
-
-  void _toggleSwitch() {
-    setState(() {
-      isToggled = !isToggled;
-    });
-    widget.onToggle(isToggled);
-  }
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _toggleSwitch,
+      onTap: () => onToggle(!value),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        width: 60,
-        height: 30,
+        width: 50,
+        height: 25,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: isToggled ? widget.activeColor : widget.inactiveColor,
+          color: value ? AppColors.orange500 : NeutralColors.black200,
         ),
         child: AnimatedAlign(
           duration: const Duration(milliseconds: 300),
-          alignment: isToggled ? Alignment.centerRight : Alignment.centerLeft,
+          alignment: value ? Alignment.centerRight : Alignment.centerLeft,
           child: Container(
-            margin: const EdgeInsets.all(5),
-            width: 20,
-            height: 20,
+            margin: const EdgeInsets.all(3),
+            width: 19,
+            height: 19,
             decoration: const BoxDecoration(
-              shape: BoxShape.circle,
               color: Colors.white,
+              shape: BoxShape.circle,
             ),
           ),
         ),
