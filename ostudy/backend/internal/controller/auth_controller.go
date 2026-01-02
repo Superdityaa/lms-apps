@@ -47,7 +47,17 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "User registered successfully",
+		"user": gin.H{
+			"id":           id,
+			"username":     input.Username,
+			"email":        input.Email,
+			"role":         input.Role,
+			"completename": input.Completename,
+			"address":      input.Address,
+		},
+	})
 }
 
 // Login user

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ostudy/data/controller/auth/register_controller.dart';
 import 'package:ostudy/presentation/core/components/button.dart';
 import 'package:ostudy/presentation/core/components/form_input.dart';
 import 'package:ostudy/presentation/core/components/outlined_button.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
-// import 'package:ostudy/presentation/core/utils/app_transition.dart';
 import 'package:ostudy/presentation/screen/auth/login/login_screen.dart';
+import 'package:get/get.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -16,23 +17,48 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final RegisterController registerController = Get.put(RegisterController());
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
-  // void _navigateToPage(Widget page) {
-  //   Navigator.push(
-  //     context,
-  //     TransitionPage(page: page),
-  //   );
-  // }
+  final confirmedPasswordController = TextEditingController();
 
   @override
   void dispose() {
     usernameController.dispose();
     emailController.dispose();
     passwordController.dispose();
+    confirmedPasswordController.dispose();
     super.dispose();
+  }
+
+  void _onRegister() {
+    if (usernameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        passwordController.text.isEmpty ||
+        confirmedPasswordController.text.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'All fields are required',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    if (passwordController.text != confirmedPasswordController.text) {
+      Get.snackbar(
+        'Error',
+        'Password does not match',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    registerController.register(
+      username: usernameController.text.trim(),
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
   }
 
   @override
@@ -106,7 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: double.infinity,
                   hintText: 'Re-type Password',
                   isPassword: true,
-                  controller: passwordController,
+                  controller: confirmedPasswordController,
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -115,20 +141,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
-                MainButton(
-                  color: AppColors.orange500,
-                  width: double.infinity,
-                  height: 56,
-                  text: "Sign Up",
-                  textColor: NeutralColors.white,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RegisterScreen(),
-                      ),
-                    );
-                  },
+                Obx(
+                  () => MainButton(
+                    color: AppColors.orange500,
+                    width: double.infinity,
+                    height: 56,
+                    text: registerController.isLoading.value
+                        ? "Loading..."
+                        : "Sign Up",
+                    textColor: NeutralColors.white,
+                    onPressed: () {
+                      if (registerController.isLoading.value) return;
+                      _onRegister();
+                    },
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Row(
