@@ -27,6 +27,26 @@ func Register(c *gin.Context) {
 		input.Role = "student"
 	}
 
+	var exists bool
+	err := config.DB.QueryRow(
+		"SELECT EXISTS(SELECT 1 FROM tb_user WHERE email = $1)",
+		input.Email,
+	).Scan(&exists)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Database error",
+		})
+		return
+	}
+
+	if exists {
+		c.JSON(http.StatusConflict, gin.H{
+			"error": "Email already registered",
+		})
+		return
+	}
+
 	// Hashing password
 	hashedPassword, err := password.HashPassword(input.Password)
 	if err != nil {
@@ -73,8 +93,8 @@ func Login(c *gin.Context) {
 	}
 
 	var user model.User
-	err := config.DB.QueryRow("SELECT id, email, password, role FROM tb_user WHERE email=$1", input.Email).
-		Scan(&user.ID, &user.Email, &user.Password, &user.Role)
+	err := config.DB.QueryRow("SELECT id, username, email, password, completename, address, role FROM tb_user WHERE email=$1", input.Email).
+		Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.Completename, &user.Address, &user.Role)
 	println("Role in DB:", user.Role)
 
 	if err != nil {

@@ -19,19 +19,28 @@ class RegisterService {
           'password': password,
         },
       );
-
       if (response.statusCode == 201) {
-        return RegisterModel.fromJson(
-          Map<String, dynamic>.from(response.data),
-        );
+        final data = response.data;
+
+        if (data is Map<String, dynamic>) {
+          return RegisterModel.fromJson(data);
+        } else {
+          throw Exception('Invalid response format');
+        }
       }
 
       throw Exception('Unexpected status code: ${response.statusCode}');
     } on DioException catch (e) {
-      if (e.response != null) {
-        final data = e.response?.data;
-        throw Exception(data['error'] ?? 'Register failed');
+      if (e.response != null && e.response?.data != null) {
+        final data = e.response!.data;
+
+        if (data is Map<String, dynamic> && data['error'] != null) {
+          throw Exception(data['error']);
+        }
+
+        throw Exception('Register failed');
       }
+
       throw Exception('Connection error');
     }
   }

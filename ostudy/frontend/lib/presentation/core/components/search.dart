@@ -1,38 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../utils/app_colors.dart';
+import 'package:ostudy/presentation/core/utils/app_colors.dart';
 
-class Search extends StatelessWidget {
+class Search extends StatefulWidget {
+  const Search({super.key});
+
+  @override
+  State<Search> createState() => _SearchState();
+}
+
+class _SearchState extends State<Search> {
   final TextEditingController _searchController = TextEditingController();
-
-  Search({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      height: 60,
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: NeutralColors.white,
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: NeutralColors.black100),
+        border: Border.all(color: NeutralColors.white),
       ),
       child: TextField(
         controller: _searchController,
+        textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
+          isDense: true,
           hintText: "Search Class, Category, etc",
+          hintStyle: const TextStyle(fontSize: 14),
           prefixIcon: Padding(
-            padding: EdgeInsets.only(left: 8, right: 8),
+            padding: const EdgeInsets.all(10),
             child: SvgPicture.asset(
               'assets/icon/search-03.svg',
-              height: 20,
               width: 20,
+              height: 20,
             ),
           ),
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
-          contentPadding: const EdgeInsets.only(top: 30, bottom: 20),
         ),
       ),
     );

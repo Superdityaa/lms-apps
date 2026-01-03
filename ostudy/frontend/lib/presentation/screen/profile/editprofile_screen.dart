@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ostudy/data/controller/auth/login_controller.dart';
 import 'package:ostudy/presentation/core/components/avatar.dart';
 import 'package:ostudy/presentation/core/components/button.dart';
 import 'package:ostudy/presentation/core/components/form_input.dart';
@@ -15,6 +17,39 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  final LoginController loginController = Get.find<LoginController>();
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  Future<void> _loadUser() async {
+    final user = await loginController.getUser();
+
+    if (user != null) {
+      nameController.text = user.completename;
+      usernameController.text = user.username;
+      emailController.text = user.email;
+      addressController.text = user.address;
+    }
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    usernameController.dispose();
+    emailController.dispose();
+    addressController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -43,7 +78,8 @@ class _EditProfileState extends State<EditProfile> {
                 children: [
                   Text("Complete Name", style: ParagraphBody.mediumBold),
                   const SizedBox(height: 8),
-                  const CustomFormInput(
+                  CustomFormInput(
+                    controller: nameController,
                     height: 56,
                     width: double.infinity,
                     hintText: "Complete Name",
@@ -57,7 +93,8 @@ class _EditProfileState extends State<EditProfile> {
                 children: [
                   Text("Username", style: ParagraphBody.mediumBold),
                   const SizedBox(height: 8),
-                  const CustomFormInput(
+                  CustomFormInput(
+                    controller: usernameController,
                     height: 56,
                     width: double.infinity,
                     hintText: "Username",
@@ -71,7 +108,8 @@ class _EditProfileState extends State<EditProfile> {
                 children: [
                   Text("Email", style: ParagraphBody.mediumBold),
                   const SizedBox(height: 8),
-                  const CustomFormInput(
+                  CustomFormInput(
+                    controller: emailController,
                     height: 56,
                     width: double.infinity,
                     hintText: "Email",
@@ -85,7 +123,8 @@ class _EditProfileState extends State<EditProfile> {
                 children: [
                   Text("Address", style: ParagraphBody.mediumBold),
                   const SizedBox(height: 8),
-                  const CustomFormInput(
+                  CustomFormInput(
+                    controller: addressController,
                     height: 56,
                     width: double.infinity,
                     hintText: "Address",

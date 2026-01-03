@@ -5,6 +5,7 @@ import 'package:ostudy/data/services/api/auth/api_client.dart';
 import 'package:ostudy/data/services/api/auth/login_services.dart';
 import 'package:ostudy/data/services/model/login_model.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
+import 'package:ostudy/presentation/screen/home/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
@@ -28,6 +29,7 @@ class LoginController extends GetxController {
         await prefs.setString('token', loginResponse.token);
         await prefs.setString('role', loginResponse.role);
         await prefs.setString('user', loginResponse.user.toJsonString());
+        await prefs.setString('userid', loginResponse.user.id);
 
         _apiClient.setAuthToken(loginResponse.token);
         return true;
@@ -87,7 +89,7 @@ class LoginController extends GetxController {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
     _apiClient.removeAuthToken();
-    Get.offAllNamed('/login');
+    Get.to(() => const Home());
   }
 
   Future<bool> isLoggedIn() async {
