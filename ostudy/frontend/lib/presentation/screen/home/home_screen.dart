@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ostudy/presentation/core/components/search.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
@@ -11,6 +12,62 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final List<Map<String, String>> _categories = [
+    {
+      'title': 'Code',
+      'icon': 'assets/icon/code.svg',
+    },
+    {
+      'title': 'Editing',
+      'icon': 'assets/icon/laptop.svg',
+    },
+    {
+      'title': 'Illustration',
+      'icon': 'assets/icon/pen-tool.svg',
+    },
+    {
+      'title': 'UI/UX',
+      'icon': 'assets/icon/lamp.svg',
+    },
+    {
+      'title': 'More',
+      'icon': 'assets/icon/puzzle.svg',
+    },
+  ];
+
+  /// 🔹 Widget category item (PRIVATE, hanya untuk Home)
+  Widget _buildCategoryItem({
+    required String title,
+    required String icon,
+    VoidCallback? onTap,
+  }) {
+    return Column(
+      children: [
+        InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(40),
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.orange50,
+            ),
+            child: SvgPicture.asset(
+              icon,
+              width: 32,
+              height: 32,
+            ),
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          title,
+          style: ParagraphBody.xsmallBold,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -46,17 +103,63 @@ class _HomeState extends State<Home> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Hi, Good Morning",
-                              style: HomeTextStyles.greetingText),
+                          Text(
+                            "Hi, Good Morning",
+                            style: HomeTextStyles.greetingText,
+                          ),
                           const SizedBox(height: 4),
-                          Text("Aditiya Mahendra",
-                              style: HomeTextStyles.profileName),
+                          Text(
+                            "Aditiya Mahendra",
+                            style: HomeTextStyles.profileName,
+                          ),
                         ],
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: NeutralColors.white,
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/icon/notifications.svg',
+                            width: 18.0,
+                            height: 18.0,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   SizedBox(height: size.height * 0.03),
                   const Search(),
+                ],
+              ),
+            ),
+            SizedBox(height: size.height * 0.02),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Category",
+                    style: ParagraphBody.mediumBold,
+                  ),
+                  SizedBox(height: size.height * 0.02),
+                  Wrap(
+                    spacing: 16,
+                    children: _categories.map((category) {
+                      return _buildCategoryItem(
+                        title: category['title']!,
+                        icon: category['icon']!,
+                        onTap: () {
+                          debugPrint('Clicked category: ${category['title']}');
+                        },
+                      );
+                    }).toList(),
+                  ),
                 ],
               ),
             ),

@@ -9,7 +9,7 @@ import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 // import 'package:ostudy/presentation/core/utils/app_transition.dart';
 import 'package:ostudy/presentation/screen/auth/register/register_screen.dart';
-import 'package:ostudy/presentation/screen/profile/profile_screen.dart';
+import 'package:ostudy/presentation/screen/home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -130,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         final success =
                             await loginController.login(email, password);
                         if (success) {
-                          Get.offAll(() => const Profile());
+                          Get.offAll(() => const Home());
                         }
                       },
                     )),
