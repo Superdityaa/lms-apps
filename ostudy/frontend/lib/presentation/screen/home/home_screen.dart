@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ostudy/presentation/core/components/featuredclasshome.dart';
 import 'package:ostudy/presentation/core/components/search.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
@@ -35,7 +36,6 @@ class _HomeState extends State<Home> {
     },
   ];
 
-  /// 🔹 Widget category item (PRIVATE, hanya untuk Home)
   Widget _buildCategoryItem({
     required String title,
     required String icon,
@@ -161,6 +161,51 @@ class _HomeState extends State<Home> {
                     }).toList(),
                   ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(26, 0, 16, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Category",
+                        style: ParagraphBody.mediumBold,
+                      ),
+                      const Spacer(),
+                      Text(
+                        "See all",
+                        style: HomeTextStyles.seeAllText,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 230,
+              child: ListView.separated(
+                clipBehavior: Clip.none,
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return FeaturedClassCard(
+                    image: 'assets/images/bg-onboarding.png',
+                    category: 'UI/UX',
+                    title: 'UX for Beginner',
+                    duration: '1H 23 Min',
+                    rating: '4.6/5',
+                    authorName: 'Alex',
+                    authorRole: 'UI Designer',
+                    authorAvatar: 'assets/images/defaultpict.jpg',
+                    price: '\$112',
+                    onTap: () {},
+                  );
+                },
+                separatorBuilder: (_, __) => const SizedBox(width: 16),
+                itemCount: 5,
               ),
             ),
           ],

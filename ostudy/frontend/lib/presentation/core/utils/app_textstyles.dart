@@ -80,6 +80,8 @@ class HomeTextStyles {
       fontSize: 12, fontWeight: FontWeight.normal, color: NeutralColors.white);
   static final TextStyle profileName = GoogleFonts.oxygen(
       fontSize: 17, fontWeight: FontWeight.normal, color: NeutralColors.white);
+  static final TextStyle seeAllText = GoogleFonts.oxygen(
+      fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.orange500);
 }
 
 //Boarding Class
