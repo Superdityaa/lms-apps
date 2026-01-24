@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:ostudy/presentation/core/components/avatar.dart';
 import 'package:ostudy/presentation/core/components/featuredclasshome.dart';
 import 'package:ostudy/presentation/core/components/search.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
+import 'package:ostudy/presentation/screen/mentor/listmentor_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -71,7 +74,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: NeutralColors.white,
       body: SingleChildScrollView(
@@ -79,8 +81,8 @@ class _HomeState extends State<Home> {
           children: [
             Container(
               width: double.infinity,
-              height: size.height * 0.30,
-              padding: const EdgeInsets.fromLTRB(16, 64, 16, 24),
+              height: size.height * 0.25,
+              padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
               decoration: const BoxDecoration(
                 color: AppColors.orange500,
                 borderRadius: BorderRadius.only(
@@ -94,10 +96,9 @@ class _HomeState extends State<Home> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const CircleAvatar(
-                        radius: 32,
-                        backgroundImage:
-                            AssetImage('assets/images/defaultpict.jpg'),
+                      const AvatarProfile(
+                        isEditable: false,
+                        radius: 30,
                       ),
                       SizedBox(width: size.width * 0.04),
                       Column(
@@ -185,17 +186,17 @@ class _HomeState extends State<Home> {
               ),
             ),
             SizedBox(
-              height: 230,
+              height: 220,
               child: ListView.separated(
                 clipBehavior: Clip.none,
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return FeaturedClassCard(
+                    duration: '1H 23 Min',
                     image: 'assets/images/bg-onboarding.png',
                     category: 'UI/UX',
                     title: 'UX for Beginner',
-                    duration: '1H 23 Min',
                     rating: '4.6/5',
                     authorName: 'Alex',
                     authorRole: 'UI Designer',
@@ -206,6 +207,39 @@ class _HomeState extends State<Home> {
                 },
                 separatorBuilder: (_, __) => const SizedBox(width: 16),
                 itemCount: 5,
+              ),
+            ),
+            SizedBox(height: size.height * 0.02),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(32, 0, 16, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Top Mentor",
+                        style: ParagraphBody.mediumBold,
+                      ),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => const ListMentor());
+                        },
+                        child: Text(
+                          "See all",
+                          style: HomeTextStyles.seeAllText,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: size.height * 0.02),
+                  const AvatarProfile(
+                    isEditable: true,
+                    avatarUrl: 'assets/images/defaultpict.jpg',
+                    radius: 25,
+                  ),
+                ],
               ),
             ),
           ],

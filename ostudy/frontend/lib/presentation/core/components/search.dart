@@ -20,7 +20,7 @@ class _SearchState extends State<Search> {
       decoration: BoxDecoration(
         color: NeutralColors.white,
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: NeutralColors.white),
+        border: Border.all(color: NeutralColors.black50),
       ),
       child: TextField(
         controller: _searchController,

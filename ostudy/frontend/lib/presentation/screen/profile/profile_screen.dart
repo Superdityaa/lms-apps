@@ -23,6 +23,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: NeutralColors.white,
       body: Column(
         children: [
           Stack(
@@ -185,7 +186,7 @@ class _ProfileState extends State<Profile> {
                         return const CustomAlert(
                           title: "Are you sure want to logout?",
                           image: "assets/images/state-logout.png",
-                          textButton: "Yes, Logout",
+                          textButton: "Logout",
                         );
                       },
                     );

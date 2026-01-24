@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ostudy/presentation/core/components/avatar.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 
@@ -121,9 +122,10 @@ class FeaturedClassCard extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              CircleAvatar(
-                radius: 12,
-                backgroundImage: AssetImage(authorAvatar),
+              AvatarProfile(
+                isEditable: false,
+                avatarUrl: authorAvatar,
+                radius: 16,
               ),
               const SizedBox(width: 6),
               Expanded(

@@ -3,6 +3,7 @@ import 'package:ostudy/data/services/api/user/mentor_services.dart';
 import 'package:ostudy/data/services/model/mentor_model.dart';
 import 'package:ostudy/presentation/core/components/avatar.dart';
 import 'package:ostudy/presentation/core/components/page_title.dart';
+import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 
 class ListMentor extends StatefulWidget {
@@ -26,6 +27,7 @@ class _ListMentorState extends State<ListMentor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: NeutralColors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
         child: Column(

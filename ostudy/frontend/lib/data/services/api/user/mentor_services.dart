@@ -31,7 +31,7 @@ class MentorServices {
 
   Future<List<MentorModel>> getAllMentors() async {
     try {
-      final response = await _dio.get("/mentors");
+      final response = await _dio.get("/getMentor/");
       if (response.statusCode == 200) {
         return MentorModel.listFromJson(response.toString());
       }

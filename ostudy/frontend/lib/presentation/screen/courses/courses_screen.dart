@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:ostudy/presentation/core/components/search.dart';
+import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 
-class Courses extends StatefulWidget {
-  const Courses({super.key});
+class ListCourse extends StatefulWidget {
+  const ListCourse({super.key});
 
   @override
-  State<Courses> createState() => _CoursesState();
+  State<ListCourse> createState() => _ListCourseState();
 }
 
-class _CoursesState extends State<Courses> {
+class _ListCourseState extends State<ListCourse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: NeutralColors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [

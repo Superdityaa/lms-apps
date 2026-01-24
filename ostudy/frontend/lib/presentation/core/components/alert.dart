@@ -19,6 +19,7 @@ class CustomAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -46,7 +47,7 @@ class CustomAlert extends StatelessWidget {
                     },
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: size.width * 0.04),
                 Expanded(
                   child: MainButton(
                     color: AppColors.orange500,
@@ -56,9 +57,11 @@ class CustomAlert extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()),
                       );
-                    }, textColor: NeutralColors.white,
+                    },
+                    textColor: NeutralColors.white,
                   ),
                 ),
               ],

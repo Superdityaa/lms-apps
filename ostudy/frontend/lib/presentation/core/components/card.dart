@@ -24,6 +24,11 @@ class CardCourse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        color: NeutralColors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: NeutralColors.black50),
+      ),
       padding: const EdgeInsets.all(12),
       width: MediaQuery.of(context).size.width * 0.9,
       child: Row(

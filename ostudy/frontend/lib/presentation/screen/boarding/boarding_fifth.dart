@@ -4,7 +4,6 @@ import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 import 'package:ostudy/presentation/core/utils/app_transition.dart';
 import 'package:ostudy/presentation/screen/auth/login/login_screen.dart';
-import 'package:ostudy/presentation/screen/profile/profile_screen.dart';
 
 class BoardingFifthScreen extends StatelessWidget {
   const BoardingFifthScreen({super.key});
@@ -74,7 +73,7 @@ class BoardingFifthScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Profile(),
+                    builder: (context) => const LoginScreen(),
                   ),
                 );
               },
