@@ -56,6 +56,8 @@ class ParagraphBody {
       fontSize: 12, fontWeight: FontWeight.bold, color: NeutralColors.black500);
   static final TextStyle xsmallBold = GoogleFonts.oxygen(
       fontSize: 10, fontWeight: FontWeight.bold, color: NeutralColors.black500);
+  static final TextStyle smallBoldOrange = GoogleFonts.oxygen(
+      fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.orange500);
   static final TextStyle mediumRegular = GoogleFonts.oxygen(
       fontSize: 14,
       fontWeight: FontWeight.normal,

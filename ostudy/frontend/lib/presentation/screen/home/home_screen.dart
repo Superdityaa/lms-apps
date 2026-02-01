@@ -6,6 +6,8 @@ import 'package:ostudy/presentation/core/components/featuredclasshome.dart';
 import 'package:ostudy/presentation/core/components/search.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
+import 'package:ostudy/presentation/screen/home/all_class.dart';
+import 'package:ostudy/presentation/screen/home/search.dart';
 import 'package:ostudy/presentation/screen/mentor/listmentor_screen.dart';
 
 class Home extends StatefulWidget {
@@ -134,7 +136,11 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   SizedBox(height: size.height * 0.03),
-                  const Search(),
+                  Search(
+                    onTap: () {
+                      Get.to(() => const SearchScreen());
+                    },
+                  ),
                 ],
               ),
             ),
@@ -172,13 +178,18 @@ class _HomeState extends State<Home> {
                   Row(
                     children: [
                       Text(
-                        "Category",
+                        "Featured Class",
                         style: ParagraphBody.mediumBold,
                       ),
                       const Spacer(),
-                      Text(
-                        "See all",
-                        style: HomeTextStyles.seeAllText,
+                      TextButton(
+                        onPressed: () {
+                          Get.to(() => const AllClass());
+                        },
+                        child: Text(
+                          "See all",
+                          style: HomeTextStyles.seeAllText,
+                        ),
                       ),
                     ],
                   ),
@@ -234,10 +245,19 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   SizedBox(height: size.height * 0.02),
-                  const AvatarProfile(
-                    isEditable: true,
-                    avatarUrl: 'assets/images/defaultpict.jpg',
-                    radius: 25,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const AvatarProfile(
+                        isEditable: true,
+                        avatarUrl: 'assets/images/defaultpict.jpg',
+                        radius: 25,
+                      ),
+                      Text("Testing", style: ParagraphBody.smallBold),
+                      SizedBox(height: size.height * 0.01),
+                      Text("UI/UX Designer",
+                          style: ParagraphBody.xsmallRegular),
+                    ],
                   ),
                 ],
               ),

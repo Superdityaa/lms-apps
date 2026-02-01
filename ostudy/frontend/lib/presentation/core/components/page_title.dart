@@ -34,7 +34,10 @@ class CustomPageTitle extends StatelessWidget {
             // Left icon
             if (showLeftIcon)
               GestureDetector(
-                onTap: onPressed,
+                onTap: onPressed ??
+                    () {
+                      Navigator.pop(context);
+                    },
                 child: icon ??
                     SvgPicture.asset(
                       'assets/icon/arrow-narrow-left.svg',
@@ -43,16 +46,10 @@ class CustomPageTitle extends StatelessWidget {
                     ),
               )
             else
-              const SizedBox(width: 20), // Placeholder supaya balance
-
-            // Title (selalu center)
+              const SizedBox(width: 20),
             Expanded(
               child: Center(
-                child: Text(
-                  title,
-                  style: HeadingBold.heading5,
-                  textAlign: TextAlign.center,
-                ),
+                child: Text(title, style: HeadingBold.heading6),
               ),
             ),
 

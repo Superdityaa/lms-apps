@@ -59,14 +59,8 @@ class CardCourse extends StatelessWidget {
                         color: AppColors.orange50,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Text(
-                        badgeText,
-                        style: const TextStyle(
-                          color: AppColors.orange500,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child:
+                          Text(badgeText, style: ParagraphBody.smallBoldOrange),
                     ),
                   ],
                 ),
