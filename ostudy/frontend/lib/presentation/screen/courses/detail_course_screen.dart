@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ostudy/presentation/core/components/page_title.dart';
 import 'package:ostudy/presentation/core/utils/app_textstyles.dart';
 import 'package:ostudy/presentation/core/utils/app_colors.dart';
+import 'package:ostudy/presentation/screen/courses/lesson_course_screen.dart';
 
 class DetailCourse extends StatefulWidget {
   const DetailCourse({super.key});
@@ -16,6 +17,7 @@ class _DetailCourseState extends State<DetailCourse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: NeutralColors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
         child: Column(
@@ -60,6 +62,13 @@ class _DetailCourseState extends State<DetailCourse> {
                     ListTile(
                       title: Text("a. Welcome to UX Design",
                           style: ParagraphBody.smallRegular),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LessonDetails()),
+                        );
+                      },
                     ),
                     ListTile(
                       title: Text("b. Fundamental UX Design",
