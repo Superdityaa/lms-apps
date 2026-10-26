@@ -33,7 +33,7 @@ func ForgotPasswordHandler(c *gin.Context) {
 
 	// Find the user by email.
 	var userID string
-	err := config.DB.QueryRow("SELECT id FROM users WHERE email=$1", req.Email).Scan(&userID)
+	err := config.DB.QueryRow("SELECT id FROM tb_user WHERE email=$1", req.Email).Scan(&userID)
 	if err == sql.ErrNoRows {
 		c.JSON(http.StatusOK, gin.H{"message": "If this email exists, reset link has been sent"})
 		return

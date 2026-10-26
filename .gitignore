@@ -1,0 +1,9 @@
+# Environment variables
+.env
+*.env
+*.env.local
+
+# OS and Editor files
+.DS_Store
+.vscode/
+.idea/

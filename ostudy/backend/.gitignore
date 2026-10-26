@@ -3,8 +3,9 @@
 *.out
 *.test
 
-# Ignore db config
-/backend/package/config/db.go
+# Ignore environment variables
+.env
+*.env.local
 
 # Ignore editor & OS files
 .vscode/
