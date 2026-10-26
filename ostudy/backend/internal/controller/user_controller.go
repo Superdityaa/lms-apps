@@ -13,7 +13,7 @@ import (
 // GetAllUsers
 func GetUsers(c *gin.Context) {
 	rows, err := config.DB.Query(`
-        SELECT id, username, email, password, completename, address, role, COALESCE(avatar, '') AS avatar, create_on FROM tb_user
+        SELECT id, username, email, completename, address, role, COALESCE(avatar, '') AS avatar, create_on FROM tb_user
     `)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve users"})
@@ -24,7 +24,7 @@ func GetUsers(c *gin.Context) {
 	var users []model.User
 	for rows.Next() {
 		var u model.User
-		if err := rows.Scan(&u.ID, &u.Username, &u.Email, &u.Password, &u.Completename, &u.Address, &u.Role, &u.Avatar, &u.CreateOn); err != nil {
+		if err := rows.Scan(&u.ID, &u.Username, &u.Email, &u.Completename, &u.Address, &u.Role, &u.Avatar, &u.CreateOn); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning users", "details": err.Error()})
 			return
 		}
@@ -71,19 +71,9 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 
-	hashedPassword := user.Password
-	if user.Password != "" {
-		var err error
-		hashedPassword, err = password.HashPassword(user.Password)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
-			return
-		}
-	}
-
 	_, err := config.DB.Exec(
-		`UPDATE tb_user SET avatar=$1, username=$2, email=$3, password=$4, completename=$5, address=$6, role=$7 WHERE id=$8`,
-		user.Avatar, user.Username, user.Email, hashedPassword, user.Completename, user.Address, user.Role, id,
+		`UPDATE tb_user SET avatar=$1, username=$2, email=$3, completename=$4, address=$5, role=$6 WHERE id=$7`,
+		user.Avatar, user.Username, user.Email, user.Completename, user.Address, user.Role, id,
 	)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
@@ -96,9 +86,16 @@ func UpdateUser(c *gin.Context) {
 // DeleteUser
 func DeleteUser(c *gin.Context) {
 	id := c.Param("id")
-	_, err := config.DB.Exec("DELETE FROM tb_user WHERE id = $1", id)
+
+	res, err := config.DB.Exec("DELETE FROM tb_user WHERE id = $1", id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete user"})
+		return
+	}
+
+	rowsAffected, _ := res.RowsAffected()
+	if rowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
 		return
 	}
 

@@ -1,12 +1,14 @@
 package controller
 
 import (
+	"database/sql"
 	"fmt"
-	"lms-apps/backend/internal/model"
-	"lms-apps/backend/package/config"
 	"log"
 	"net/http"
 	"time"
+
+	"lms-apps/backend/internal/model"
+	"lms-apps/backend/package/config"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -41,43 +43,60 @@ func GetEnrollments(c *gin.Context) {
 
 // Enroll a user to a course
 func EnrollCourse(c *gin.Context) {
+	rawUserID, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized, user_id missing in token"})
+		return
+	}
+	userID := fmt.Sprintf("%v", rawUserID)
+
 	var req struct {
-		UserID   string `json:"user_id" binding:"required"`
 		CourseID string `json:"course_id" binding:"required"`
+		UserID   string `json:"user_id"`
 	}
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "course_id is required"})
 		return
 	}
 
-	// If request is authenticated, prefer token user id so notification and enrollment align
-	if raw, ok := c.Get("user_id"); ok {
-		req.UserID = fmt.Sprintf("%v", raw)
+	var courseName string
+	err := config.DB.QueryRow("SELECT coursename FROM tb_course WHERE id = $1", req.CourseID).Scan(&courseName)
+	if err == sql.ErrNoRows {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Course not found"})
+		return
+	} else if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to check course", "details": err.Error()})
+		return
 	}
 
-	// Check if already enrolled
-	var exists bool
-	err := config.DB.QueryRow(
+	var completeName string
+	err = config.DB.QueryRow("SELECT completename FROM tb_user WHERE id = $1", userID).Scan(&completeName)
+	if err != nil && err != sql.ErrNoRows {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch user info", "details": err.Error()})
+		return
+	}
+
+	var alreadyEnrolled bool
+	err = config.DB.QueryRow(
 		"SELECT EXISTS(SELECT 1 FROM tb_enrollment WHERE user_id=$1 AND course_id=$2)",
-		req.UserID, req.CourseID,
-	).Scan(&exists)
+		userID, req.CourseID,
+	).Scan(&alreadyEnrolled)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to check enrollment", "details": err.Error()})
 		return
 	}
 
-	if exists {
+	if alreadyEnrolled {
 		c.JSON(http.StatusConflict, gin.H{"message": "User already enrolled in this course"})
 		return
 	}
 
-	// Insert enrollment record
 	enrollID := uuid.New().String()
 	_, err = config.DB.Exec(
 		`INSERT INTO tb_enrollment (id, user_id, course_id, enrolled_on)
 		 VALUES ($1, $2, $3, $4)`,
-		enrollID, req.UserID, req.CourseID, time.Now().UTC(),
+		enrollID, userID, req.CourseID, time.Now().UTC(),
 	)
 
 	if err != nil {
@@ -86,32 +105,19 @@ func EnrollCourse(c *gin.Context) {
 	}
 
 	notifMsg := "Anda berhasil membeli course baru!"
-	if err := CreateNotification(req.UserID, notifMsg); err != nil {
-		log.Printf("CreateNotification failed for user %s: %v", req.UserID, err)
-		// don't block enrollment success if notification fails
+	if err := CreateNotification(userID, notifMsg); err != nil {
+		log.Printf("CreateNotification failed for user %s: %v", userID, err)
+
 	}
 
-	var courseName, completeName string
-
-	err = config.DB.QueryRow(`
-		SELECT c.coursename, u.completename
-		FROM tb_course c
-		JOIN tb_user u ON u.id = $1
-		WHERE c.id = $2
-	`, req.UserID, req.CourseID).Scan(&courseName, &completeName)
-
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch user/course info", "details": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusCreated, gin.H{"message": "Enrollment successful",
+	c.JSON(http.StatusCreated, gin.H{
+		"message":       "Enrollment successful",
 		"enrollment_id": enrollID,
-		"user_id":       req.UserID,
+		"user_id":       userID,
 		"course_id":     req.CourseID,
 		"coursename":    courseName,
-		"completename":  completeName})
-
+		"completename":  completeName,
+	})
 }
 
 // Get courses by user

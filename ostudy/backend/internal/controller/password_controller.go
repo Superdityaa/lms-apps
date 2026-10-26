@@ -108,7 +108,7 @@ func ResetPasswordHandler(c *gin.Context) {
 		return
 	}
 
-	_, err = config.DB.Exec("UPDATE users SET password=$1 WHERE id=$2", hashedPassword, userID)
+	_, err = config.DB.Exec("UPDATE tb_user SET password=$1 WHERE id=$2", hashedPassword, userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update password"})
 		return

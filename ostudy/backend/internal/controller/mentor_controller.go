@@ -12,24 +12,23 @@ import (
 // Get Mentor
 func GetMentors(c *gin.Context) {
 	rows, err := config.DB.Query(`
-        SELECT id,  COALESCE(avatar, '') AS avatar, name, role, description, create_on FROM tb_mentor
-    `)
+        SELECT id,  COALESCE(avatar, '') AS avatar, name, role, description, create_on FROM tb_mentor`)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve users"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve Mentor"})
 		return
 	}
 	defer rows.Close()
 
-	var users []model.Mentor
+	var mentors []model.Mentor
 	for rows.Next() {
 		var u model.Mentor
 		if err := rows.Scan(&u.ID, &u.Avatar, &u.Name, &u.Role, &u.Description, &u.CreateOn); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning users"})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning Mentor"})
 			return
 		}
-		users = append(users, u)
+		mentors = append(mentors, u)
 	}
-	c.JSON(http.StatusOK, users)
+	c.JSON(http.StatusOK, mentors)
 }
 
 // Create Mentor
@@ -73,17 +72,24 @@ func UpdateMentor(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "mentor updated successfully"})
+	c.JSON(http.StatusOK, gin.H{"message": "Mentor updated successfully"})
 }
 
 // Delete Mentor
 func DeleteMentor(c *gin.Context) {
 	id := c.Param("id")
-	_, err := config.DB.Exec("DELETE FROM tb_mentor WHERE id = $1", id)
+
+	res, err := config.DB.Exec("DELETE FROM tb_mentor WHERE id = $1", id)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete user"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete mentor"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "User deleted successfully"})
+	rowsAffected, _ := res.RowsAffected()
+	if rowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Mentor not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Mentor deleted successfully"})
 }
