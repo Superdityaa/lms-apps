@@ -8,8 +8,8 @@ import (
 )
 
 func SetupCourseRoutes(r *gin.RouterGroup) {
-	r.GET("/getCourse", middleware.AuthMiddleware(), controller.GetCourse)
-	r.POST("/createCourse", middleware.AuthMiddleware(), middleware.RoleAuthorization("mentor", "superadmin"), controller.CreateCourse)
-	r.PUT("/updateCourse/:id", middleware.AuthMiddleware(), middleware.RoleAuthorization("mentor", "superadmin"), controller.UpdateCourse)
-	r.DELETE("/deleteCourse/:id", middleware.AuthMiddleware(), middleware.RoleAuthorization("mentor", "superadmin"), controller.DeleteCourse)
+	r.GET("/getCourse", controller.GetCourse)
+	r.POST("/createCourse", middleware.RoleAuthorization("mentor", "superadmin"), controller.CreateCourse)
+	r.PUT("/updateCourse/:id", middleware.RoleAuthorization("mentor", "superadmin"), controller.UpdateCourse)
+	r.DELETE("/deleteCourse/:id", middleware.RoleAuthorization("mentor", "superadmin"), controller.DeleteCourse)
 }

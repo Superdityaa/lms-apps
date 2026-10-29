@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"lms-apps/backend/internal/helpers/middleware"
 	"lms-apps/backend/internal/routes"
 	"lms-apps/backend/package/config"
@@ -31,7 +33,11 @@ func main() {
 	routes.SetupNotifications(protected)
 
 	// 4. Run server
-	r.Run(":8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	r.Run(":" + port)
 }
 
 // func main() {

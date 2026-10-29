@@ -8,8 +8,8 @@ import (
 )
 
 func SetupMentorRoutes(r *gin.RouterGroup) {
-	r.GET("/getMentor", middleware.AuthMiddleware(), middleware.RoleAuthorization("superadmin"), controller.GetMentors)
-	r.POST("/createMentor", middleware.AuthMiddleware(), middleware.RoleAuthorization("superadmin"), controller.CreateMentor)
-	r.PUT("/updateMentor/:id", middleware.AuthMiddleware(), middleware.RoleAuthorization("superadmin"), controller.UpdateMentor)
-	r.DELETE("/deleteMentor/:id", middleware.AuthMiddleware(), middleware.RoleAuthorization("superadmin"), controller.DeleteMentor)
+	r.GET("/getMentor", middleware.RoleAuthorization("superadmin"), controller.GetMentors)
+	r.POST("/createMentor", middleware.RoleAuthorization("superadmin"), controller.CreateMentor)
+	r.PUT("/updateMentor/:id", middleware.RoleAuthorization("superadmin"), controller.UpdateMentor)
+	r.DELETE("/deleteMentor/:id", middleware.RoleAuthorization("superadmin"), controller.DeleteMentor)
 }

@@ -23,9 +23,8 @@ func Register(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Email, username, and password are required"})
 		return
 	}
-	if input.Role == "" {
-		input.Role = "student"
-	}
+	// Enforce 'student' role for public registration
+	input.Role = "student"
 
 	var exists bool
 	err := config.DB.QueryRow(

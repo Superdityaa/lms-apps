@@ -16,7 +16,19 @@ import (
 
 // Get all enrollments
 func GetEnrollments(c *gin.Context) {
-	rows, err := config.DB.Query("SELECT id, user_id, course_id, enrolled_on FROM tb_enrollment")
+	rows, err := config.DB.Query(`
+		SELECT 
+			e.id, 
+			e.user_id, 
+			COALESCE(u.completename, '') AS completename, 
+			e.course_id, 
+			COALESCE(c.coursename, '') AS coursename, 
+			e.enrolled_on
+		FROM tb_enrollment e
+		LEFT JOIN tb_user u ON e.user_id = u.id
+		LEFT JOIN tb_course c ON e.course_id = c.id
+		ORDER BY e.enrolled_on DESC
+	`)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve enrollments", "details": err.Error()})
 		return
@@ -26,7 +38,7 @@ func GetEnrollments(c *gin.Context) {
 	var enrollments []model.Enrollment
 	for rows.Next() {
 		var e model.Enrollment
-		if err := rows.Scan(&e.ID, &e.UserID, &e.CourseID, &e.EnrolledOn); err != nil {
+		if err := rows.Scan(&e.ID, &e.UserID, &e.Completename, &e.CourseID, &e.CourseName, &e.EnrolledOn); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning enrollments", "details": err.Error()})
 			return
 		}
@@ -93,10 +105,11 @@ func EnrollCourse(c *gin.Context) {
 	}
 
 	enrollID := uuid.New().String()
+	enrolledOn := time.Now().UTC()
 	_, err = config.DB.Exec(
 		`INSERT INTO tb_enrollment (id, user_id, course_id, enrolled_on)
 		 VALUES ($1, $2, $3, $4)`,
-		enrollID, userID, req.CourseID, time.Now().UTC(),
+		enrollID, userID, req.CourseID, enrolledOn,
 	)
 
 	if err != nil {
@@ -111,12 +124,13 @@ func EnrollCourse(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
-		"message":       "Enrollment successful",
-		"enrollment_id": enrollID,
-		"user_id":       userID,
-		"course_id":     req.CourseID,
-		"coursename":    courseName,
-		"completename":  completeName,
+		"message":      "Enrollment successful",
+		"id":           enrollID,
+		"user_id":      userID,
+		"completename": completeName,
+		"course_id":    req.CourseID,
+		"coursename":   courseName,
+		"enrolled_on":  enrolledOn,
 	})
 }
 
