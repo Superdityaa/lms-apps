@@ -2,6 +2,7 @@ package controller
 
 import (
 	"database/sql"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -20,24 +21,27 @@ type ForgotPasswordRequest struct {
 
 type ResetPasswordRequest struct {
 	Token       string `json:"token" binding:"required"`
-	NewPassword string `json:"new_password" binding:"required,min=6"`
+	NewPassword string `json:"new_password"`
+	Password    string `json:"password"`
 }
 
-// Forgot Password
+// ForgotPasswordHandler handles requesting a password reset email
 func ForgotPasswordHandler(c *gin.Context) {
 	var req ForgotPasswordRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Valid email is required", "details": err.Error()})
 		return
 	}
 
-	// Find the user by email.
+	// Find the user by email
 	var userID string
 	err := config.DB.QueryRow("SELECT id FROM tb_user WHERE email=$1", req.Email).Scan(&userID)
 	if err == sql.ErrNoRows {
+		// Return generic success to prevent email enumeration
 		c.JSON(http.StatusOK, gin.H{"message": "If this email exists, reset link has been sent"})
 		return
 	} else if err != nil {
+		log.Printf("[ForgotPassword] Database query error: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
 		return
 	}
@@ -45,16 +49,17 @@ func ForgotPasswordHandler(c *gin.Context) {
 	// Remove any previous tokens for this user
 	_, _ = config.DB.Exec("DELETE FROM tb_password_resets WHERE user_id=$1", userID)
 
-	// create a new reset token record
+	// Create a new reset token record (valid for 15 minutes)
 	token := uuid.New().String()
 	expiredAt := time.Now().Add(15 * time.Minute)
 	resetID := uuid.New().String()
 
 	_, err = config.DB.Exec(
-		"INSERT INTO tb_password_resets (id, user_id, email, token, expired_at) VALUES ($1,$2,$3,$4,$5)",
+		"INSERT INTO tb_password_resets (id, user_id, email, token, expired_at) VALUES ($1, $2, $3, $4, $5)",
 		resetID, userID, req.Email, token, expiredAt,
 	)
 	if err != nil {
+		log.Printf("[ForgotPassword] Failed to create reset token: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create reset token"})
 		return
 	}
@@ -64,22 +69,32 @@ func ForgotPasswordHandler(c *gin.Context) {
 		frontend = "http://localhost:3000"
 	}
 	resetURL := frontend + "/reset-password?token=" + token
-	body := "<p>Click link below to reset your password:</p><p><a href='" + resetURL + "'>Reset Password</a></p>"
 
-	if err := mailers.SendEmail(req.Email, "Password Reset", body); err != nil {
-		// mailer logs error internally; do not leak details to client
-		c.JSON(http.StatusOK, gin.H{"message": "If this email exists, reset link has been sent"})
-		return
-	}
+	// Generate styled HTML template
+	emailBody := mailers.BuildResetPasswordEmail(resetURL, token)
+
+	// Send email asynchronously in background so request does not block
+	mailers.SendEmailAsync(req.Email, "Reset Your OStudy Password", emailBody)
 
 	c.JSON(http.StatusOK, gin.H{"message": "If this email exists, reset link has been sent"})
 }
 
-// Reset Password
+// ResetPasswordHandler handles resetting user password with a valid token
 func ResetPasswordHandler(c *gin.Context) {
 	var req ResetPasswordRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Token is required", "details": err.Error()})
+		return
+	}
+
+	// Support both 'new_password' and 'password' fields for frontend compatibility
+	newPassword := req.NewPassword
+	if newPassword == "" {
+		newPassword = req.Password
+	}
+
+	if len(newPassword) < 6 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Password must be at least 6 characters"})
 		return
 	}
 
@@ -91,30 +106,33 @@ func ResetPasswordHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or expired token"})
 		return
 	} else if err != nil {
+		log.Printf("[ResetPassword] Database error: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
 		return
 	}
 
 	if time.Now().After(expiredAt) {
-		// delete expired token
+		// Delete expired token
 		_, _ = config.DB.Exec("DELETE FROM tb_password_resets WHERE token=$1", req.Token)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Token expired"})
 		return
 	}
 
-	hashedPassword, err := password.HashPassword(req.NewPassword)
+	hashedPassword, err := password.HashPassword(newPassword)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+		log.Printf("[ResetPassword] Hash error: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to process password"})
 		return
 	}
 
 	_, err = config.DB.Exec("UPDATE tb_user SET password=$1 WHERE id=$2", hashedPassword, userID)
 	if err != nil {
+		log.Printf("[ResetPassword] Update password failed: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update password"})
 		return
 	}
 
-	// remove token after successful reset
+	// Invalidate token after successful reset
 	_, _ = config.DB.Exec("DELETE FROM tb_password_resets WHERE token=$1", req.Token)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Password reset successful"})
